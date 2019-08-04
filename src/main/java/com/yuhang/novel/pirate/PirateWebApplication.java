@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.yuhang.novel.pirate.mapper")
+@MapperScan("com.yuhang.novel.pirate.dao.mapper")
 public class PirateWebApplication {
 
     public static void main(String[] args) {
