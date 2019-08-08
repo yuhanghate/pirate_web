@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 @ApiModel(description = "用户信息返回值")
-public class UserResultModel implements Serializable {
+public class UserModel implements Serializable {
 
     @ApiModelProperty(value = "用户唯一id", required = true)
     private String id;
@@ -19,12 +19,23 @@ public class UserResultModel implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "令牌")
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public UserModel setToken(String token) {
+        this.token = token;
+        return this;
+    }
 
     public String getId() {
         return id;
     }
 
-    public UserResultModel setId(String id) {
+    public UserModel setId(String id) {
         this.id = id;
         return this;
     }
@@ -33,7 +44,7 @@ public class UserResultModel implements Serializable {
         return username;
     }
 
-    public UserResultModel setUsername(String username) {
+    public UserModel setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -42,7 +53,7 @@ public class UserResultModel implements Serializable {
         return tel;
     }
 
-    public UserResultModel setTel(String tel) {
+    public UserModel setTel(String tel) {
         this.tel = tel;
         return this;
     }
@@ -51,7 +62,7 @@ public class UserResultModel implements Serializable {
         return email;
     }
 
-    public UserResultModel setEmail(String email) {
+    public UserModel setEmail(String email) {
         this.email = email;
         return this;
     }

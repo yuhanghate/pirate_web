@@ -1,10 +1,10 @@
-package com.yuhang.novel.pirate.model;
+package com.yuhang.novel.pirate.model.params;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-@ApiModel(description = "登陆请求参数")
-public class LoginParamsModel {
 
+@ApiModel(description = "注册请求参数")
+public class RegisterParams {
 
     @ApiModelProperty(value = "用户名", required = true)
     private String username;
@@ -12,11 +12,14 @@ public class LoginParamsModel {
     @ApiModelProperty(value = "密码", required = true)
     private String password;
 
+    @ApiModelProperty(value = "邮箱", required = false)
+    private String email;
+
     public String getUsername() {
         return username;
     }
 
-    public LoginParamsModel setUsername(String username) {
+    public RegisterParams setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -25,16 +28,17 @@ public class LoginParamsModel {
         return password;
     }
 
-    public LoginParamsModel setPassword(String password) {
+    public RegisterParams setPassword(String password) {
         this.password = password;
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "LoginParamsModel{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getEmail() {
+        return email;
+    }
+
+    public RegisterParams setEmail(String email) {
+        this.email = email;
+        return this;
     }
 }

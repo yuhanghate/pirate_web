@@ -1,25 +1,35 @@
-package com.yuhang.novel.pirate.dao.entity;
+package com.yuhang.novel.pirate.dto.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户表
+ * <p>
+ * 唯一id
+ * </p>
+ *
+ * @author yuhang
+ * @since 2019-08-06
  */
-public class UserEntity implements Serializable {
+@TableName("users")
+public class UsersEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 用户唯一id
      */
     private String id;
 
-
     /**
-     * 用户名
+     * 登陆帐号
      */
     private String username;
 
     /**
-     * 密码
+     * 登陆密码
      */
     private String password;
 
@@ -39,22 +49,21 @@ public class UserEntity implements Serializable {
     private Date lastLoginTime;
 
     /**
-     * 登陆时间
+     * 创建时间
      */
     private Date createTime;
 
     /**
-     * 性别(预留)
+     * 性别: 1:男 / 2:女 / 3:未选
      */
     private Integer gender;
 
-    private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
     }
 
-    public UserEntity setId(String id) {
+    public UsersEntity setId(String id) {
         this.id = id;
         return this;
     }
@@ -63,7 +72,7 @@ public class UserEntity implements Serializable {
         return username;
     }
 
-    public UserEntity setUsername(String username) {
+    public UsersEntity setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -72,7 +81,7 @@ public class UserEntity implements Serializable {
         return password;
     }
 
-    public UserEntity setPassword(String password) {
+    public UsersEntity setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -81,7 +90,7 @@ public class UserEntity implements Serializable {
         return tel;
     }
 
-    public UserEntity setTel(String tel) {
+    public UsersEntity setTel(String tel) {
         this.tel = tel;
         return this;
     }
@@ -90,7 +99,7 @@ public class UserEntity implements Serializable {
         return email;
     }
 
-    public UserEntity setEmail(String email) {
+    public UsersEntity setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -99,7 +108,7 @@ public class UserEntity implements Serializable {
         return lastLoginTime;
     }
 
-    public UserEntity setLastLoginTime(Date lastLoginTime) {
+    public UsersEntity setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
         return this;
     }
@@ -108,7 +117,7 @@ public class UserEntity implements Serializable {
         return createTime;
     }
 
-    public UserEntity setCreateTime(Date createTime) {
+    public UsersEntity setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -117,27 +126,21 @@ public class UserEntity implements Serializable {
         return gender;
     }
 
-    public UserEntity setGender(Integer gender) {
+    public UsersEntity setGender(Integer gender) {
         this.gender = gender;
         return this;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", tel=").append(tel);
-        sb.append(", email=").append(email);
-        sb.append(", lastLoginTime=").append(lastLoginTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", gender=").append(gender);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "UsersEntity{" +
+            "username=" + username +
+            ", password=" + password +
+            ", tel=" + tel +
+            ", email=" + email +
+            ", lastLoginTime=" + lastLoginTime +
+            ", createTime=" + createTime +
+            ", gender=" + gender +
+        "}";
     }
 }

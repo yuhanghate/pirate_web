@@ -39,4 +39,20 @@ public class HttpConstant {
      * 密码必须大于6位
      */
     public final static int HTTP_20005 = 20005;
+
+    /**
+     * Token不能为空
+     */
+    public final static int HTTP_20006 = 20006;
+
+    /**
+     * 请求参数不正确
+     */
+    public final static int HTTP_20007 = 20007;
+
+    /**
+     * 文件上传失败
+     */
+    public final static int HTTP_20008 = 20008;
+
 }

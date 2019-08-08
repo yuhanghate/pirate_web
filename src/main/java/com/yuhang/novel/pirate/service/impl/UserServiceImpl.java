@@ -1,17 +1,16 @@
 package com.yuhang.novel.pirate.service.impl;
 
-import com.yuhang.novel.pirate.config.RandomConfig;
 import com.yuhang.novel.pirate.constant.HttpConstant;
-import com.yuhang.novel.pirate.dao.entity.UserEntity;
+import com.yuhang.novel.pirate.dto.entity.UsersEntity;
+import com.yuhang.novel.pirate.dto.mapper.UsersMapper;
 import com.yuhang.novel.pirate.exception.AccountException;
-import com.yuhang.novel.pirate.dao.mapper.UserMapper;
-import com.yuhang.novel.pirate.model.LoginParamsModel;
-import com.yuhang.novel.pirate.model.RegisterParamsModel;
-import com.yuhang.novel.pirate.model.UserResultModel;
+import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
+import com.yuhang.novel.pirate.model.params.LoginParams;
+import com.yuhang.novel.pirate.model.params.RegisterParams;
+import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.service.UserService;
 import com.yuhang.novel.pirate.utils.RegexUtils;
 import com.yuhang.novel.pirate.utils.UUIDUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,14 +24,14 @@ import java.util.Date;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserMapper mUserMapper;
+    private UsersMapper mUserMapper;
 
 //    @Autowired
 //    private RandomConfig mRandomConfig;
 
     @Override
-    public UserResultModel login(LoginParamsModel paramsModel) throws AccountException {
-        UserEntity entity = mUserMapper.selectByUsername(paramsModel.getUsername());
+    public UserModel login(LoginParams paramsModel) throws AccountException {
+        UsersEntity entity = mUserMapper.selectByUsername(paramsModel.getUsername());
         if (entity == null) {
             throw new AccountException(HttpConstant.HTTP_20001, "帐号不存在");
         }
@@ -41,17 +40,18 @@ public class UserServiceImpl implements UserService {
         }
         //更新最后登陆时间
         entity.setLastLoginTime(new Date());
-        mUserMapper.updateLastTimeByPrimaryKey(entity);
+        mUserMapper.updateById(entity);
+//        mUserMapper.updateLastTimeByPrimaryKey(entity);
 
-        return new UserResultModel().setId(entity.getId())
+        return new UserModel().setId(entity.getId())
                 .setEmail(entity.getEmail())
                 .setTel(entity.getTel())
                 .setUsername(entity.getUsername());
     }
 
     @Override
-    public UserResultModel register(RegisterParamsModel paramsModel) throws AccountException {
-        UserEntity entity = mUserMapper.selectByUsername(paramsModel.getUsername());
+    public UserModel register(RegisterParams paramsModel) throws AccountException {
+        UsersEntity entity = mUserMapper.selectByUsername(paramsModel.getUsername());
         if (entity != null) {
             throw new AccountException(HttpConstant.HTTP_20003, "帐号已存在");
         }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //拼表数据
-        UserEntity userEntity = new UserEntity()
+        UsersEntity userEntity = new UsersEntity()
                 .setUsername(paramsModel.getUsername())
                 .setPassword(paramsModel.getPassword())
                 .setTel(paramsModel.getUsername())
@@ -79,10 +79,23 @@ public class UserServiceImpl implements UserService {
         mUserMapper.insert(userEntity);
 
         //转成返回前端返回值
-        return new UserResultModel().setId(userEntity.getId())
+        return new UserModel().setId(userEntity.getId())
                 .setEmail(userEntity.getEmail())
                 .setTel(userEntity.getTel())
                 .setUsername(userEntity.getUsername());
 
+    }
+
+    @Override
+    public AuthorizationInfoModel selectByPrimaryKey(String uid) {
+        UsersEntity userEntity = mUserMapper.selectByPrimaryKey(uid);
+
+        AuthorizationInfoModel model = new AuthorizationInfoModel();
+        if (userEntity != null) {
+            model.setUsername(userEntity.getUsername())
+                    .setUid(userEntity.getId())
+                    .setPassword(userEntity.getPassword());
+        }
+        return model;
     }
 }

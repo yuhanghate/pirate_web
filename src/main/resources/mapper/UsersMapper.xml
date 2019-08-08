@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhang.novel.pirate.dto.mapper.UsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yuhang.novel.pirate.dto.entity.UsersEntity">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="gender" property="gender"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        username, password, tel, email, last_login_time, create_time, gender
+    </sql>
+
+    <select id="selectByUsername" parameterType="java.lang.String"
+            resultType="com.yuhang.novel.pirate.dto.entity.UsersEntity">
+
+      select * from users where username = #{username}
+    </select>
+
+    <select id="updateLastTimeByPrimaryKey" parameterType="com.yuhang.novel.pirate.dto.entity.UsersEntity">
+        update from users set last_login_time = #{lastLoginTime} where id = #{id}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+
+      select * from users where id = #{uid}
+    </select>
+</mapper>

@@ -1,6 +1,8 @@
 package com.yuhang.novel.pirate.utils;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
+import com.yuhang.novel.pirate.model.page.BasePage;
+import com.yuhang.novel.pirate.model.result.BaseResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,4 +65,5 @@ public class ResultUtils {
         map.put("data", null);
         return map;
     }
+
 }
