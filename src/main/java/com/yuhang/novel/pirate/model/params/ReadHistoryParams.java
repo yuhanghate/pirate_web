@@ -20,7 +20,7 @@ public class ReadHistoryParams {
     private String content;
 
     @ApiModelProperty(value = "封面", required = true)
-    private String conver;
+    private String cover;
 
     @ApiModelProperty(value = "作者", required = true)
     private String author;
@@ -70,12 +70,12 @@ public class ReadHistoryParams {
         return this;
     }
 
-    public String getConver() {
-        return conver;
+    public String getCover() {
+        return cover;
     }
 
-    public ReadHistoryParams setConver(String conver) {
-        this.conver = conver;
+    public ReadHistoryParams setCover(String cover) {
+        this.cover = cover;
         return this;
     }
 

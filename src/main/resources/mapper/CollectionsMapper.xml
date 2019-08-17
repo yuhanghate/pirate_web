@@ -9,7 +9,7 @@
         <result column="bookid" property="bookid" />
         <result column="author" property="author" />
         <result column="create_time" property="createTime" />
-        <result column="conver" property="conver" />
+        <result column="cover" property="cover" />
         <result column="description" property="description" />
         <result column="book_status" property="bookStatus" />
         <result column="classify_name" property="classifyName" />
@@ -20,13 +20,13 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        book_name, bookid, author, create_time, conver, description, book_status, classify_name, resouce_type, uid
+        book_name, bookid, author, create_time, cover, description, book_status, classify_name, resouce_type, uid
     </sql>
 
     <select id="selectUidByCollectionResultModelList" resultType="com.yuhang.novel.pirate.model.CollectionModel">
 
         select
-        book_name, bookid, author, conver, resouce_type
+        book_name, bookid, author, cover, resouce_type
         from collections
 
         where uid = #{uid} AND delete_flag = 0
@@ -34,9 +34,9 @@
 
     <!-- 标签改为删除状态  -->
     <update id="deleteByBookAndResouceType">
-        update from collections as c
+        UPDATE collections as c
         set c.delete_flag = 1
-        where c.uid = #{uid} and c.bookid = #{bookid} and c.resouce_type = #{resouceType}
+        WHERE c.uid = #{uid} AND c.bookid = #{bookid} AND c.resouce_type = #{resouceType}
     </update>
 
     <!--根据查询收藏对象-->

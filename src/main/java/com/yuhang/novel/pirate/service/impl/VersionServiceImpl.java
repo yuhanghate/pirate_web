@@ -4,7 +4,6 @@ import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.dto.entity.AppVersionEntity;
 import com.yuhang.novel.pirate.dto.mapper.AppVersionMapper;
 import com.yuhang.novel.pirate.exception.VersionException;
-import com.yuhang.novel.pirate.model.result.BaseResult;
 import com.yuhang.novel.pirate.model.result.VersionResult;
 import com.yuhang.novel.pirate.service.VersionService;
 import com.yuhang.novel.pirate.utils.RxFileTool;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,13 +27,15 @@ public class VersionServiceImpl implements VersionService {
     @Override
     public VersionResult checkVersionUpdate(String versionName) throws VersionException {
         try {
-            int versionCode = mAppVersionMapper.selectVersionCode();
+            int oldVersionCode = mAppVersionMapper.selectVersionCode();
             int newVersionCode = Integer.valueOf(versionName.replace(".", ""));
             VersionResult versionResult = new VersionResult();
-            if (versionCode > newVersionCode) {
+            if (oldVersionCode > newVersionCode) {
                 //更新版本
                 AppVersionEntity versionEntity = mAppVersionMapper.selectAppVersionEntity();
-                BeanUtils.copyProperties(versionResult, versionEntity);
+                BeanUtils.copyProperties(versionEntity, versionResult);
+                versionResult.setUpdate("Yes");
+                versionResult.setConstraint(versionEntity.getMustUpdate());
                 return versionResult;
             } else {
                 //没有新版本
@@ -79,6 +79,7 @@ public class VersionServiceImpl implements VersionService {
                 entity.setUpdateLog(updateLog);
 
                 mAppVersionMapper.insert(entity);
+
 
             } else {
                 throw new VersionException(HttpConstant.HTTP_20008, "文件写入失败");

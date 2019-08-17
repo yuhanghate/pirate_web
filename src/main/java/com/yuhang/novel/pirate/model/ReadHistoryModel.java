@@ -18,10 +18,13 @@ public class ReadHistoryModel implements Serializable {
     private String author;
 
     @ApiModelProperty(value = "小说封面")
-    private String conver;
+    private String cover;
 
     @ApiModelProperty(value = "小说源( KS:看书神器)")
     private String resouceType;
+
+    @ApiModelProperty(value = "小说简介")
+    private String description;
 
     public String getBookName() {
         return bookName;
@@ -50,12 +53,21 @@ public class ReadHistoryModel implements Serializable {
         return this;
     }
 
-    public String getConver() {
-        return conver;
+    public String getDescription() {
+        return description;
     }
 
-    public ReadHistoryModel setConver(String conver) {
-        this.conver = conver;
+    public ReadHistoryModel setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public ReadHistoryModel setCover(String cover) {
+        this.cover = cover;
         return this;
     }
 

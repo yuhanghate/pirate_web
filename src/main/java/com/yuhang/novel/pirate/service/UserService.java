@@ -1,11 +1,11 @@
 package com.yuhang.novel.pirate.service;
 
 
-import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
 import com.yuhang.novel.pirate.exception.AccountException;
+import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
+import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
-import com.yuhang.novel.pirate.model.UserModel;
 
 public interface UserService {
 

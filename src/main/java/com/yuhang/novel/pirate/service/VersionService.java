@@ -2,7 +2,6 @@ package com.yuhang.novel.pirate.service;
 
 import com.yuhang.novel.pirate.exception.VersionException;
 import com.yuhang.novel.pirate.model.result.VersionResult;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface VersionService {

@@ -16,7 +16,7 @@ public class AddCollectionParams {
     private String author;
 
     @ApiModelProperty(value = "小说封面", required = true)
-    private String conver;
+    private String cover;
 
     @ApiModelProperty(value = "简介", required = true)
     private String description;
@@ -49,15 +49,14 @@ public class AddCollectionParams {
         return this;
     }
 
-    public String getConver() {
-        return conver;
+    public String getCover() {
+        return cover;
     }
 
-    public AddCollectionParams setConver(String conver) {
-        this.conver = conver;
+    public AddCollectionParams setCover(String cover) {
+        this.cover = cover;
         return this;
     }
-
 
     public String getBookStatus() {
         return bookStatus;

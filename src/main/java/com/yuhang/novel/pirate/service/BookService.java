@@ -2,10 +2,9 @@ package com.yuhang.novel.pirate.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.exception.CollcetionException;
-import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
-import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
 
 /**

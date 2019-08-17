@@ -18,7 +18,7 @@ public class CollectionModel implements Serializable {
     private String author;
 
     @ApiModelProperty(value = "小说封面")
-    private String conver;
+    private String cover;
 
     @ApiModelProperty(value = "小说源( KS:看书神器)")
     private String resouceType;
@@ -50,12 +50,12 @@ public class CollectionModel implements Serializable {
         return this;
     }
 
-    public String getConver() {
-        return conver;
+    public String getCover() {
+        return cover;
     }
 
-    public CollectionModel setConver(String conver) {
-        this.conver = conver;
+    public CollectionModel setCover(String cover) {
+        this.cover = cover;
         return this;
     }
 

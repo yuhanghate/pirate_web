@@ -2,14 +2,12 @@ package com.yuhang.novel.pirate.controller;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.AccountException;
-import com.yuhang.novel.pirate.model.*;
+import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
 import com.yuhang.novel.pirate.model.result.UserResult;
-import com.yuhang.novel.pirate.service.BookService;
 import com.yuhang.novel.pirate.service.UserService;
 import com.yuhang.novel.pirate.shiro.JwtToken;
-import com.yuhang.novel.pirate.utils.ResultUtils;
 import com.yuhang.novel.pirate.utils.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/m/user")
@@ -71,7 +68,7 @@ public class UserController extends BaseController {
             JwtToken token = TokenUtils.init(resultModel.getId(), paramsModel.getPassword());
             SecurityUtils.getSubject().login(token);
             resultModel.setToken(token.getPrincipal().toString());
-            return (UserResult) new UserResult().setCode(HttpConstant.HTTP_200).setMsg("注册成功");
+            return (UserResult) new UserResult().setData(resultModel).setCode(HttpConstant.HTTP_200).setMsg("注册成功");
         } catch (UnknownAccountException ex) {
             return (UserResult) new UserResult().setCode(HttpConstant.HTTP_20001).setMsg("用户不存在！");
         } catch (IncorrectCredentialsException ex) {

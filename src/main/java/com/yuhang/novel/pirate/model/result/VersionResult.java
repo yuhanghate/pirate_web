@@ -34,7 +34,7 @@ public class VersionResult {
     private String updateLog;
 
     @ApiModelProperty(value = "targetSize", notes = "targetSize")
-    private String target_size;
+    private String targetSize;
 
     @ApiModelProperty(value = "文件md5", notes = "文件md5")
     private String newMd5;
@@ -78,12 +78,12 @@ public class VersionResult {
         return this;
     }
 
-    public String getTarget_size() {
-        return target_size;
+    public String getTargetSize() {
+        return targetSize;
     }
 
-    public VersionResult setTarget_size(String target_size) {
-        this.target_size = target_size;
+    public VersionResult setTargetSize(String targetSize) {
+        this.targetSize = targetSize;
         return this;
     }
 

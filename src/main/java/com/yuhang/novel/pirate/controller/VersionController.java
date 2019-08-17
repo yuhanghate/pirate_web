@@ -1,22 +1,18 @@
 package com.yuhang.novel.pirate.controller;
 
-import com.yuhang.novel.pirate.constant.FileConstant;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.VersionException;
 import com.yuhang.novel.pirate.model.result.BaseResult;
 import com.yuhang.novel.pirate.model.result.VersionResult;
 import com.yuhang.novel.pirate.service.VersionService;
-import com.yuhang.novel.pirate.utils.MD5Utils;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @RestController
 @RequestMapping("api/m/version")

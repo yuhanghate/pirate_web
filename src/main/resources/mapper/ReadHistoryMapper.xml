@@ -9,7 +9,7 @@
         <result column="chapterid" property="chapterid"/>
         <result column="chapter_name" property="chapterName"/>
         <result column="content" property="content"/>
-        <result column="conver" property="conver"/>
+        <result column="cover" property="cover"/>
         <result column="author" property="author"/>
         <result column="book_name" property="bookName"/>
         <result column="description" property="description"/>
@@ -21,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        bookid, chapterid, chapter_name, content, conver, author, book_name, desc, create_time, resouce_type, uid
+        bookid, chapterid, chapter_name, content, cover, author, book_name, desc, create_time, resouce_type, uid
     </sql>
 
     <!-- 查找用户阅读记录 -->

@@ -8,10 +8,10 @@ import com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity;
 import com.yuhang.novel.pirate.dto.mapper.CollectionsMapper;
 import com.yuhang.novel.pirate.dto.mapper.ReadHistoryMapper;
 import com.yuhang.novel.pirate.exception.CollcetionException;
+import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.ReadHistoryModel;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
-import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
 import com.yuhang.novel.pirate.service.BookService;
 import com.yuhang.novel.pirate.utils.JwtUtil;
@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
             throw new CollcetionException(HttpConstant.HTTP_20007, "bookStatus 请求参数不正常");
         }else if (StringUtils.isEmpty(paramsModel.getClassifyName())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "classifyName 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getConver())) {
+        }else if (StringUtils.isEmpty(paramsModel.getCover())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "conver 请求参数不正常");
         }else if (StringUtils.isEmpty(paramsModel.getDescription())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "description 请求参数不正常");

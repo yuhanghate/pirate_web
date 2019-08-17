@@ -60,6 +60,11 @@ public class BookController extends BaseController {
         return result;
     }
 
+    /**
+     * 收藏小说
+     * @param paramsModel
+     * @return
+     */
     @ApiOperation(value = "添加小说到收藏列表", notes = "添加小说到收藏列表", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/collection/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResult postAddCollection(@RequestBody AddCollectionParams paramsModel) {
@@ -74,6 +79,12 @@ public class BookController extends BaseController {
 
     }
 
+    /**
+     * 删除小说收藏
+     * @param bookid
+     * @param resouceType
+     * @return
+     */
     @DeleteMapping(value = "/collection/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "删除收藏列表", notes = "删除收藏", produces = MediaType.APPLICATION_JSON_VALUE)
     public BaseResult postDeletecollection(@RequestParam @ApiParam(name = "bookid", value = "小说id", required = true) String bookid,
