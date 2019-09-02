@@ -30,4 +30,5 @@ build/
 ### VS Code ###
 .vscode/
 
-/cdn
+cdn
+maven_stores

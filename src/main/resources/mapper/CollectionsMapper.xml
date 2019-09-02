@@ -25,11 +25,11 @@
 
     <select id="selectUidByCollectionResultModelList" resultType="com.yuhang.novel.pirate.model.CollectionModel">
 
-        select
+        SELECT
         book_name, bookid, author, cover, resouce_type
-        from collections
-
-        where uid = #{uid} AND delete_flag = 0
+        FROM collections
+        WHERE uid = #{uid} AND delete_flag = 0
+        GROUP BY bookid
     </select>
 
     <!-- 标签改为删除状态  -->
@@ -41,9 +41,9 @@
 
     <!--根据查询收藏对象-->
     <select id="selectCollectionResultModel" resultType="com.yuhang.novel.pirate.dto.entity.CollectionsEntity">
-        select *
-        from collections
-         where uid = #{uid} and bookid = #{bookid} and resouce_type = #{resouceType} AND delete_flag = 0
+        SELECT *
+        FROM collections
+         WHERE uid = #{uid} and bookid = #{bookid} and resouce_type = #{resouceType} AND delete_flag = 0
     </select>
 
 </mapper>

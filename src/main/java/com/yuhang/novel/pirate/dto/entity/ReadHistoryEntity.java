@@ -43,7 +43,7 @@ public class ReadHistoryEntity implements Serializable {
     /**
      * 封面
      */
-    private String conver;
+    private String cover;
 
     /**
      * 作者
@@ -109,15 +109,17 @@ public class ReadHistoryEntity implements Serializable {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-    public String getConver() {
-        return conver;
+    public String getCover() {
+        return cover;
     }
 
-    public void setConver(String conver) {
-        this.conver = conver;
+    public ReadHistoryEntity setCover(String cover) {
+        this.cover = cover;
+        return this;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
     public String getAuthor() {
         return author;
