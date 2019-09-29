@@ -55,4 +55,25 @@ public class HttpConstant {
      */
     public final static int HTTP_20008 = 20008;
 
+    /**
+     * 发送Text邮件时发生异常！
+     */
+    public final static int HTTP_20009 = 20009;
+
+    /**
+     * 邮箱验证码不正确
+     */
+    public final static int HTTP_20010 = 20010;
+
+    /**
+     * 帐号与邮箱不匹配
+     */
+    public final static int HTTP_20011 = 20011;
+
+    /**
+     * 两次密码必须一致
+     */
+    public final static int HTTP_20012 = 20012;
+
+
 }

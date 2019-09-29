@@ -48,4 +48,13 @@ public interface BookService {
      * @param params 小说信息
      */
     void updateReadHistory(ReadHistoryParams params);
+
+    /**
+     * 最近收藏过的小说阅读记录
+     * @param pageNum 页码
+     * @param pageSize 每页条数
+     * @param uid 用户id
+     * @return
+     */
+    ReadHistoryPage getReadHistoryByCollectionModel(int pageNum, int pageSize, String uid);
 }

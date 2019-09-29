@@ -24,11 +24,24 @@
         bookid, chapterid, chapter_name, content, cover, author, book_name, desc, create_time, resouce_type, uid
     </sql>
 
-    <!-- 查找用户阅读记录 -->
+    <!-- 查找用户收藏小说阅读记录 -->
     <select id="selectReadHistoryEntityList" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
-        SELECT * FROM read_history
-        WHERE uid = #{uid}  AND delete_flag = 0
+        SELECT *
+        FROM read_history
+        WHERE uid = #{uid} AND delete_flag = 0
         GROUP BY bookid ORDER BY create_time DESC
+    </select>
+
+    <select id="selectReadHistoryEntityByCollections" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
+
+        SELECT a.*
+        FROM read_history a
+        WHERE
+        a.bookid in (select bookid from collections WHERE uid = #{uid}  and delete_flag = 0)
+        AND
+        uid = #{uid}
+        AND a.create_time = (select create_time from read_history WHERE bookid = a.bookid ORDER BY create_time desc LIMIT 1)
+
     </select>
 
     <update id="updateCreateTime">

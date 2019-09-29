@@ -64,8 +64,6 @@ public class BookServiceImpl implements BookService {
             throw new CollcetionException(HttpConstant.HTTP_20007, "classifyName 请求参数不正常");
         }else if (StringUtils.isEmpty(paramsModel.getCover())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "conver 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getDescription())) {
-            throw new CollcetionException(HttpConstant.HTTP_20007, "description 请求参数不正常");
         }
 
         String uid = JwtUtil.getUid(request.getHeader(UserConstant.TOKEN));
@@ -128,5 +126,21 @@ public class BookServiceImpl implements BookService {
             entity.setCreateTime(new Date());
             mReadHistoryMapper.updateById(entity);
         }
+    }
+
+    @Override
+    public ReadHistoryPage getReadHistoryByCollectionModel(int pageNum, int pageSize, String uid) {
+        Page<ReadHistoryModel> page = new Page<>(pageNum, pageSize);
+
+        page = mReadHistoryMapper.selectReadHistoryEntityByCollections(page, uid);
+
+        ReadHistoryPage historyPage = new ReadHistoryPage();
+        historyPage
+                .setList(page.getRecords())
+                .setTotal(page.getTotal())
+                .setPageNum(page.getCurrent())
+                .setPageSize(page.getSize());
+
+        return historyPage;
     }
 }

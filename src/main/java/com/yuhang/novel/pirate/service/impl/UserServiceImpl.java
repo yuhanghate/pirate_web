@@ -8,6 +8,7 @@ import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
 import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
+import com.yuhang.novel.pirate.model.params.UpdatePasswordParams;
 import com.yuhang.novel.pirate.service.UserService;
 import com.yuhang.novel.pirate.utils.RegexUtils;
 import com.yuhang.novel.pirate.utils.UUIDUtils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户信息:
@@ -41,7 +43,6 @@ public class UserServiceImpl implements UserService {
         //更新最后登陆时间
         entity.setLastLoginTime(new Date());
         mUserMapper.updateById(entity);
-//        mUserMapper.updateLastTimeByPrimaryKey(entity);
 
         return new UserModel().setId(entity.getId())
                 .setEmail(entity.getEmail())
@@ -98,4 +99,38 @@ public class UserServiceImpl implements UserService {
         }
         return model;
     }
+
+    @Override
+    public UserModel updatePassword(UpdatePasswordParams params) throws AccountException {
+        UsersEntity entity = mUserMapper.selectByEmailAndUsername(params.getUsername(), params.getEmail());
+        if (entity == null) {
+            throw new AccountException(HttpConstant.HTTP_20011, "帐号与邮箱不匹配");
+        }
+        if (!params.getPassword().equals(params.getAgainPassword())) {
+            throw new AccountException(HttpConstant.HTTP_20012, "两次密码必须一致");
+        }
+        if (params.getPassword().length() < 6) {
+            throw new AccountException(HttpConstant.HTTP_20005, "密码必须大于等于6位");
+        }
+        if (!RegexUtils.checkMobile(params.getUsername())) {
+            throw new AccountException(HttpConstant.HTTP_20004, "帐号格式不正确, 必须为手机号");
+        }
+
+        entity.setPassword(params.getPassword());
+
+        mUserMapper.updateById(entity);
+
+        UserModel userModel = new UserModel().setId(entity.getId())
+                .setEmail(entity.getEmail())
+                .setTel(entity.getTel())
+                .setUsername(entity.getUsername());
+        return userModel;
+    }
+
+    @Override
+    public boolean checkUserEmpty(String email) {
+        List<UsersEntity> list = mUserMapper.selectByEmail(email);
+        return list != null && !list.isEmpty();
+    }
+
 }

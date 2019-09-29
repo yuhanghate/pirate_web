@@ -112,4 +112,17 @@ public class BookController extends BaseController {
         mBookService.updateReadHistory(params);
         return new BaseResult();
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(type = "query", name = "pageNum", dataType = "Integer", value = "页数", required = true),
+            @ApiImplicitParam(type = "query", name = "pageSize", dataType = "Integer", value = "每页条数", required = true)
+    })
+    @ApiOperation(value = "查询收藏过的小说阅读记录列表", notes = "查询阅读记录列表", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/read/collection/history/list")
+    public ReadHistoryResult getReadHistoryByCollectionList(@ApiParam int pageNum, @ApiParam int pageSize) {
+
+        ReadHistoryPage model = mBookService.getReadHistoryByCollectionModel(pageNum, pageSize, getUid(request));
+        return (ReadHistoryResult) new ReadHistoryResult().setData(model).setCode(HttpConstant.HTTP_200).setMsg("成功");
+    }
 }

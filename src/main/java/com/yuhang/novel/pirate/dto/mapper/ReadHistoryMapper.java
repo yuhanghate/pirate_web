@@ -19,12 +19,20 @@ import java.util.Date;
 public interface ReadHistoryMapper extends BaseMapper<ReadHistoryEntity> {
 
     /**
-     * 查询当前用户所有阅读记录
+     * 查找用户小说阅读记录
      *
      * @param uid 用户id
      * @return 阅读记录
      */
-    Page<ReadHistoryModel> selectReadHistoryEntityList(Page<ReadHistoryModel> page, @Param("uid") String uid);
+    Page<ReadHistoryModel>  selectReadHistoryEntityList(Page<ReadHistoryModel> page, @Param("uid") String uid);
+
+    /**
+     * 查找用户收藏过的小说的最后记录
+     * @param page
+     * @param uid
+     * @return
+     */
+    Page<ReadHistoryModel> selectReadHistoryEntityByCollections(Page<ReadHistoryModel> page, @Param("uid") String uid);
 
     /**
      * 更新阅读时间

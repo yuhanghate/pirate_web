@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @ApiModel(description = "最近阅读记录")
 public class ReadHistoryModel implements Serializable {
@@ -25,6 +26,42 @@ public class ReadHistoryModel implements Serializable {
 
     @ApiModelProperty(value = "小说简介")
     private String description;
+
+    @ApiModelProperty(value = "章节小说")
+    private String chapterid;
+
+    @ApiModelProperty(value = "章节名称")
+    private String chapterName;
+
+    @ApiModelProperty(value = "最后阅读时间")
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public ReadHistoryModel setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public String getChapterid() {
+        return chapterid;
+    }
+
+    public ReadHistoryModel setChapterid(String chapterid) {
+        this.chapterid = chapterid;
+        return this;
+    }
+
+    public String getChapterName() {
+        return chapterName;
+    }
+
+    public ReadHistoryModel setChapterName(String chapterName) {
+        this.chapterName = chapterName;
+        return this;
+    }
 
     public String getBookName() {
         return bookName;

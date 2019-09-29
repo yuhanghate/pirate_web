@@ -45,5 +45,4 @@
         FROM collections
          WHERE uid = #{uid} and bookid = #{bookid} and resouce_type = #{resouceType} AND delete_flag = 0
     </select>
-
 </mapper>

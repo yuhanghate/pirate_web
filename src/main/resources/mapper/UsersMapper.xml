@@ -31,8 +31,16 @@
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-
-
       select * from users where id = #{uid}
+    </select>
+
+    <select id="selectByEmailAndUsername"
+            resultType="com.yuhang.novel.pirate.dto.entity.UsersEntity">
+
+        select * from  users WHERE email = #{email} AND username = #{username}
+    </select>
+
+    <select id="selectByEmail" resultType="com.yuhang.novel.pirate.dto.entity.UsersEntity">
+        select * from  users WHERE email = #{email}
     </select>
 </mapper>

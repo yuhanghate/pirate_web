@@ -119,6 +119,14 @@
             <artifactId>java-jwt</artifactId>
             <version>3.4.0</version>
         </dependency>
+
+
+        <!--spring boot mail 集成jar-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -6,6 +6,7 @@ import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
 import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
+import com.yuhang.novel.pirate.model.params.UpdatePasswordParams;
 
 public interface UserService {
 
@@ -29,6 +30,21 @@ public interface UserService {
      * @return
      */
     AuthorizationInfoModel selectByPrimaryKey(String uid);
+
+    /**
+     * 修改密码
+     * @param params
+     * @return
+     * @throws AccountException
+     */
+    UserModel updatePassword(UpdatePasswordParams params) throws AccountException;
+
+    /**
+     * 指定邮箱用户是否存在
+     * @param email
+     * @return true:存在  false:不正在
+     */
+    boolean checkUserEmpty(String email);
 
 
 }

@@ -3,6 +3,8 @@ package com.yuhang.novel.pirate.dto.mapper;
 import com.yuhang.novel.pirate.dto.entity.UsersEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 唯一id Mapper 接口
@@ -32,4 +34,18 @@ public interface UsersMapper extends BaseMapper<UsersEntity> {
      * @return
      */
     UsersEntity selectByPrimaryKey(String id);
+
+    /**
+     * 根据邮箱查找查找用户
+     * @param email
+     * @return
+     */
+    UsersEntity selectByEmailAndUsername(String username, String email);
+
+    /**
+     * 邮箱指定帐号是否存在
+     * @param email
+     * @return
+     */
+    List<UsersEntity> selectByEmail(String email);
 }
