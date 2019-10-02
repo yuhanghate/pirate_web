@@ -75,5 +75,10 @@ public class HttpConstant {
      */
     public final static int HTTP_20012 = 20012;
 
+    /**
+     * 爬取源数据失败
+     */
+    public final static int HTTP_20013 = 20013;
+
 
 }

@@ -43,10 +43,10 @@ public class MailController {
     public BaseResult sendEmailCode(@ApiParam(value = "邮箱", required = true)@RequestParam String mail) {
 
         String validationCode4 = CodeUtils.getValidationCode4();
-        String content = "验证码：" + validationCode4 + "，请保密并确认本人操作。\n" +
-                "如果不是您本人操作，请忽略本邮件。\n" +
+        String content = "验证码： " + validationCode4 + " ，请保密并确认本人操作。\n" +
+                "如果不是您本人操作， 请忽略本邮件。\n" +
                 "\n" +
-                "注：自动发送邮件，请勿直接回复，如果有问题请发邮件到开发者服务邮箱：yh714610354@gmail.com 进行咨询。";
+                "注：自动发送邮件， 请勿直接回复，如果有问题请发邮件到开发者服务邮箱：yh714610354@gmail.com 进行咨询。";
         try {
             mMailService.sendTextMail(mail, "【随便看书】验证码", content);
             return new MailCodeResult().setData(validationCode4);
