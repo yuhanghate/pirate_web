@@ -1,6 +1,6 @@
 package com.yuhang.novel.pirate.service;
 
-import com.yuhang.novel.pirate.model.BookResouceListModel;
+import com.yuhang.novel.pirate.model.BookResouceModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,11 +13,11 @@ public interface BookResouceService {
     /**
      * 读取数据源列表
      */
-    List<BookResouceListModel> readBookResouceList() throws IOException;
+    List<BookResouceModel> readBookResouceList() throws IOException;
 
     /**
      * 读取数据源列表
      */
-    void readBookResouceDetails(List<BookResouceListModel> list) throws IOException;
+    void readBookResouceDetails(List<BookResouceModel> list) throws IOException;
 
 }

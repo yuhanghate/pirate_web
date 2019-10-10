@@ -3,6 +3,7 @@ package com.yuhang.novel.pirate.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.CollcetionException;
+import com.yuhang.novel.pirate.model.ReadHistoryModel;
 import com.yuhang.novel.pirate.model.page.CollectionListPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
@@ -10,6 +11,7 @@ import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
 import com.yuhang.novel.pirate.model.result.BaseResult;
 import com.yuhang.novel.pirate.model.result.CollectionListResult;
+import com.yuhang.novel.pirate.model.result.ReadHistoryBookResult;
 import com.yuhang.novel.pirate.model.result.ReadHistoryResult;
 import com.yuhang.novel.pirate.service.BookService;
 import io.swagger.annotations.*;
@@ -103,6 +105,13 @@ public class BookController extends BaseController {
 
         ReadHistoryPage model = mBookService.getReadHistoryModel(pageNum, pageSize, getUid(request));
         return (ReadHistoryResult) new ReadHistoryResult().setData(model).setCode(HttpConstant.HTTP_200).setMsg("成功");
+    }
+
+    @ApiOperation(value = "获取指定小说记录", notes = "获取指定小说记录")
+    @GetMapping("/read/history/book")
+    public ReadHistoryBookResult getReadHistoryList(@RequestParam @ApiParam(name = "bookid", value = "小说id", required = true) String bookid) {
+        ReadHistoryModel model = mBookService.getReadHistoryModel(getUid(request), bookid);
+        return (ReadHistoryBookResult) new ReadHistoryBookResult().setData(model).setCode(HttpConstant.HTTP_200).setMsg("成功");
     }
 
     @PostMapping("/read/history/update")

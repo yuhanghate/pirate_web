@@ -32,6 +32,19 @@
         GROUP BY bookid ORDER BY create_time DESC
     </select>
 
+    <select id="selectReadHistoryEntityListByBookid" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
+        SELECT
+            *
+        FROM
+            read_history
+        WHERE
+            uid = #{uid}
+            AND bookid = #{bookid}
+        ORDER BY
+            create_time DESC
+            LIMIT 1
+    </select>
+
     <select id="selectReadHistoryEntityByCollections" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
 
         SELECT a.*

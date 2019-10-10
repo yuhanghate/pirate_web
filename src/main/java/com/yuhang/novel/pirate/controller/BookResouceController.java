@@ -1,7 +1,7 @@
 package com.yuhang.novel.pirate.controller;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
-import com.yuhang.novel.pirate.model.BookResouceListModel;
+import com.yuhang.novel.pirate.model.BookResouceModel;
 import com.yuhang.novel.pirate.model.result.BaseResult;
 import com.yuhang.novel.pirate.service.BookResouceService;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ public class BookResouceController {
     public BaseResult buildWebsite() {
 
         try {
-            List<BookResouceListModel> models = mBookResouceService.readBookResouceList();
+            List<BookResouceModel> models = mBookResouceService.readBookResouceList();
             mBookResouceService.readBookResouceDetails(models);
             return new BaseResult();
         } catch (IOException e) {

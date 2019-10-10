@@ -1,46 +1,60 @@
 package com.yuhang.novel.pirate.service.impl;
 
 import com.yuhang.novel.pirate.constant.BookResouceConstant;
-import com.yuhang.novel.pirate.model.BookResouceDetailsModel;
-import com.yuhang.novel.pirate.model.BookResouceListModel;
+import com.yuhang.novel.pirate.dto.entity.BookResouceEntity;
+import com.yuhang.novel.pirate.dto.mapper.BookResouceMapper;
+import com.yuhang.novel.pirate.model.BookResouceModel;
 import com.yuhang.novel.pirate.service.BookResouceService;
-import net.minidev.json.JSONObject;
+import com.yuhang.novel.pirate.service.BookService;
+import com.yuhang.novel.pirate.utils.UUIDUtils;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.seimicrawler.xpath.JXDocument;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.boot.json.JsonParseException;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 获取小说源
  */
+@Service
 public class BookResouceServiceImpl implements BookResouceService {
 
     private OkHttpClient client = new OkHttpClient();
 
-    public BookResouceServiceImpl() {
-    }
+    public static final String FORMAT_FULL_TIME_NO_ZONE = "yyyy-MM-dd HH:mm:ss";
+
+    @Resource
+    private BookResouceMapper mBookResouceMapper;
 
     @Override
-    public List<BookResouceListModel> readBookResouceList() throws IOException {
+    public List<BookResouceModel> readBookResouceList() throws IOException {
 
-        List<BookResouceListModel> list = new ArrayList<>();
+        List<BookResouceModel> list = new ArrayList<>();
         //获取所有页面HTML
         List<String> htmlList = getPageHtmlList(getPageSize());
 
         for (String html : htmlList) {
-            List<BookResouceListModel> itemList = getItemList(getJXDocument(html));
+            List<BookResouceModel> itemList = getItemList(getJXDocument(html));
             list.addAll(itemList);
         }
 
@@ -48,54 +62,74 @@ public class BookResouceServiceImpl implements BookResouceService {
     }
 
     @Override
-    public void readBookResouceDetails(List<BookResouceListModel> list) throws IOException {
+    public void readBookResouceDetails(List<BookResouceModel> list) throws IOException {
 
 //        String html = BookResouceConstant.TEST_HTML_DETAILS;
 
-//        for (BookResouceListModel resouceListModel : list) {
-//            Response response = getResponse(resouceListModel.getUrl());
-//            if (response.body() != null) {
-//                String html = response.body().string();
-//                html = BookResouceConstant.TEST_HTML_DETAILS;
-//                JXDocument jxDocument = getJXDocument(html);
-//
-//                String status = (String) jxDocument.selOne("//span[@id='status']/text()");
-//                String websiteUrl = (String) jxDocument.selOne("//input[@id='url' and @data-cip-id='url']/@value");
-//                String resouce = (String) jxDocument.selOne("//pre[@class='layui-code']/text()");
-//
-//                JacksonJsonParser parser = new JacksonJsonParser();
-//                Map<String, Object> map = parser.parseMap(resouce);
-//                if (map.containsKey("bookSourceGroup") && !((String) map.get("bookSourceGroup")).contains("删除")) {
-//                    BookResouceDetailsModel model = new BookResouceDetailsModel();
-//                    model.setStatus(status);
-//                    model.setWebsiteUrl(websiteUrl);
-//                    model.setResouceJson(resouce);
-//                }
-//            }
-//        }
+        int count = 1;
+        for (BookResouceModel model : list) {
+            Response response = getResponse(BookResouceConstant.RESOUCE_URL + model.getUrl());
+            if (response.body() != null) {
+                String html = response.body().string();
+                JXDocument jxDocument = getJXDocument(html);
 
+                String status = (String) jxDocument.selOne("//span[@id='status']/text()");
+                String websiteUrl = (String) jxDocument.selOne("//input[@id='url']/@value");
+                String resouce = (String) jxDocument.selOne("//pre[@class='layui-code']/text()");
+                List<Object> headList = jxDocument.sel("//input[@class='layui-input']/@value");
 
-        String html = BookResouceConstant.TEST_HTML_DETAILS;
-        JXDocument jxDocument = getJXDocument(html);
+                String title = "";
+                String updateTime = "";
+                String checkTime = "";
+                if (headList.size() >= 5) {
+                    title = (String) jxDocument.selOne("//input[@class='layui-input']/@value");
+                    updateTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(2);
+                    checkTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(4);
+                }
 
-        String status = (String) jxDocument.selOne("//span[@id='status']/text()");
-        String websiteUrl = (String) jxDocument.selOne("//input[@id='url' and @class='layui-input']/@value");
-        String resouce = (String) jxDocument.selOne("//pre[@class='layui-code']/text()");
-        String title = (String) jxDocument.selOne("//input[@class='layui-input']/@value");
-        String updateTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(2);
-        String checkTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(4);
+                JacksonJsonParser parser = new JacksonJsonParser();
+                try {
+                    Map<String, Object> map = parser.parseMap(resouce);
+                    if (map.containsKey("bookSourceGroup") && !((String) map.get("bookSourceGroup")).contains("删除")) {
+                        model.setStatus(status);
+                        model.setWebsiteUrl(websiteUrl);
+                        model.setResouceRule(resouce);
+                        model.setTitle(title);
+                        model.setUpdateTime(updateTime);
+                        model.setCheckTime(checkTime);
+                        boolean bookResouce = insertBookResouce(model);
+                        System.out.println("书源名称:" + title + " 网站状态:" + status + " 书源网址:" + websiteUrl + " 页数:" + count + "/" + list.size());
+                        count++;
+                    }
+                } catch (JsonParseException e) {
 
-        JacksonJsonParser parser = new JacksonJsonParser();
-        Map<String, Object> map = parser.parseMap(resouce);
-        if (map.containsKey("bookSourceGroup") && !((String) map.get("bookSourceGroup")).contains("删除")) {
-            BookResouceDetailsModel model = new BookResouceDetailsModel();
-            model.setStatus(status);
-            model.setWebsiteUrl(websiteUrl);
-            model.setResouceJson(resouce);
-            model.setTitle(title);
-            model.setUpdateTime(updateTime);
-            model.setCheckTime(checkTime);
+                }
+
+            }
         }
+
+
+//        String html = BookResouceConstant.TEST_HTML_DETAILS;
+//        JXDocument jxDocument = getJXDocument(html);
+//
+//        String status = (String) jxDocument.selOne("//span[@id='status']/text()");
+//        String websiteUrl = (String) jxDocument.selOne("//input[@id='url' and @class='layui-input']/@value");
+//        String resouce = (String) jxDocument.selOne("//pre[@class='layui-code']/text()");
+//        String title = (String) jxDocument.selOne("//input[@class='layui-input']/@value");
+//        String updateTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(2);
+//        String checkTime = (String) jxDocument.sel("//input[@class='layui-input']/@value").get(4);
+//
+//        JacksonJsonParser parser = new JacksonJsonParser();
+//        Map<String, Object> map = parser.parseMap(resouce);
+//        if (map.containsKey("bookSourceGroup") && !((String) map.get("bookSourceGroup")).contains("删除")) {
+//            BookResouceDetailsModel model = new BookResouceDetailsModel();
+//            model.setStatus(status);
+//            model.setWebsiteUrl(websiteUrl);
+//            model.setResouceJson(resouce);
+//            model.setTitle(title);
+//            model.setUpdateTime(updateTime);
+//            model.setCheckTime(checkTime);
+//        }
     }
 
     /**
@@ -128,10 +162,10 @@ public class BookResouceServiceImpl implements BookResouceService {
      *
      * @return
      */
-    private List<BookResouceListModel> getItemList(JXDocument jxDocument) {
+    private List<BookResouceModel> getItemList(JXDocument jxDocument) {
         List<Object> list = jxDocument.sel("//div[@class='layui-card']");
 
-        List<BookResouceListModel> models = new ArrayList<>();
+        List<BookResouceModel> models = new ArrayList<>();
         for (Object obj : list) {
             if (obj instanceof Element) {
                 Element element = (Element) obj;
@@ -142,12 +176,13 @@ public class BookResouceServiceImpl implements BookResouceService {
                 String title = (String) jxd.selOne("//a/div/span[@class='bname']/text()");
 
                 if (!StringUtils.isEmpty(url) && !StringUtils.isEmpty(heat) && !StringUtils.isEmpty(updateTime) && !StringUtils.isEmpty(title)) {
-                    BookResouceListModel model = new BookResouceListModel();
+                    BookResouceModel model = new BookResouceModel();
                     model.setUrl(url);
                     model.setHeat(Integer.valueOf(heat));
                     model.setUpdateTime(updateTime);
                     model.setTitle(title);
 
+                    System.out.println("解析源列表: " + title + "  " + BookResouceConstant.RESOUCE_URL + url);
                     models.add(model);
                 }
 
@@ -166,8 +201,9 @@ public class BookResouceServiceImpl implements BookResouceService {
 
         for (int i = 1; i <= page; i++) {
 
-            Response response = getResponseSearch(page);
+            Response response = getResponseSearch(i);
 
+            System.out.println("源列表页:" + response.request().url());
             if (response.body() != null) {
                 String html = response.body().string();
                 Document doc = Jsoup.parse(html);
@@ -221,13 +257,49 @@ public class BookResouceServiceImpl implements BookResouceService {
         return JXDocument.create(doc);
     }
 
+    /**
+     * 插入或者更新源
+     * @param model
+     * @return
+     */
+    private boolean insertBookResouce(BookResouceModel model) {
+
+        BookResouceEntity entity = mBookResouceMapper.selectByWebsite(model.getWebsiteUrl());
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(FORMAT_FULL_TIME_NO_ZONE);
+        if (entity == null) {
+
+            //插入新源
+            entity = new BookResouceEntity();
+            BeanUtils.copyProperties(model, entity);
+            entity.setCreateTime(new Date());
+            entity.setCheckTime(dateTimeFormatter.parseDateTime(model.getCheckTime()).toDate());
+            entity.setUpdateTime(dateTimeFormatter.parseDateTime(model.getUpdateTime()).toDate());
+            entity.setId(UUIDUtils.get());
+            entity.setResouceRule(URLEncoder.encode(entity.getResouceRule()));
+            mBookResouceMapper.insert(entity);
+            return true;
+        } else {
+            //更新源
+            entity.setHeat(model.getHeat());
+            entity.setUpdateTime(dateTimeFormatter.parseDateTime(model.getCheckTime()).toDate());
+            entity.setCheckTime(dateTimeFormatter.parseDateTime(model.getUpdateTime()).toDate());
+            entity.setResouceRule(model.getResouceRule());
+            entity.setStatus(model.getStatus());
+            entity.setTitle(model.getTitle());
+            entity.setWebsiteUrl(model.getWebsiteUrl());
+            mBookResouceMapper.updateById(entity);
+
+            return true;
+        }
+    }
     public static void main(String[] args) {
         BookResouceService service = new BookResouceServiceImpl();
 
 
         try {
-//            List<BookResouceListModel> models = service.readBookResouceList();
-            service.readBookResouceDetails(null);
+            List<BookResouceModel> models = service.readBookResouceList();
+            service.readBookResouceDetails(models);
         } catch (IOException e) {
 
         }

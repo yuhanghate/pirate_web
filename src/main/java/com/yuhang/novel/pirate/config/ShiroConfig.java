@@ -85,6 +85,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/api/m/version/**", "anon");
         filterChainDefinitionMap.put("/file*/**", "anon");
+        filterChainDefinitionMap.put("/api/m/resouce/**", "anon");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<>(1);
         filterMap.put("jwt", new JwtFilter());

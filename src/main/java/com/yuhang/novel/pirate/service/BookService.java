@@ -3,6 +3,7 @@ package com.yuhang.novel.pirate.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.exception.CollcetionException;
 import com.yuhang.novel.pirate.model.CollectionModel;
+import com.yuhang.novel.pirate.model.ReadHistoryModel;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
@@ -42,6 +43,14 @@ public interface BookService {
      * @return
      */
     ReadHistoryPage getReadHistoryModel(int pageNum, int pageSize, String uid);
+
+    /**
+     * 最近阅读记录
+     * @param uid 用户id
+     * @param bookid 小说id
+     * @return
+     */
+    ReadHistoryModel getReadHistoryModel( String uid, String bookid);
 
     /**
      * 插入或更新最近浏览记录

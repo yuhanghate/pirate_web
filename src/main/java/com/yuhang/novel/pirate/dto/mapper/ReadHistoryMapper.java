@@ -27,6 +27,12 @@ public interface ReadHistoryMapper extends BaseMapper<ReadHistoryEntity> {
     Page<ReadHistoryModel>  selectReadHistoryEntityList(Page<ReadHistoryModel> page, @Param("uid") String uid);
 
     /**
+     * 查找用户指定的小说记录
+     * @return
+     */
+    ReadHistoryModel selectReadHistoryEntityListByBookid(@Param("uid") String uid, @Param("bookid") String bookid);
+
+    /**
      * 查找用户收藏过的小说的最后记录
      * @param page
      * @param uid

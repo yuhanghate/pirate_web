@@ -110,6 +110,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public ReadHistoryModel getReadHistoryModel(String uid, String bookid) {
+
+        return  mReadHistoryMapper.selectReadHistoryEntityListByBookid(uid, bookid);
+    }
+
+    @Override
     public void updateReadHistory(ReadHistoryParams params) {
         String uid = JwtUtil.getUid(request.getHeader(UserConstant.TOKEN));
         ReadHistoryEntity entity = mReadHistoryMapper.selectReadHistoryEntity(uid, params.getBookid(), params.getChapterid());
