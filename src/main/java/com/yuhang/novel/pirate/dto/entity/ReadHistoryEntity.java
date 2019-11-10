@@ -75,6 +75,34 @@ public class ReadHistoryEntity implements Serializable {
      */
     private String uid;
 
+    /**
+     * 快读渠道源id
+     */
+    private String tocId;
+
+    /**
+     * 快读渠道源名称
+     */
+    private String tocName;
+
+    public String getTocId() {
+        return tocId;
+    }
+
+    public ReadHistoryEntity setTocId(String tocId) {
+        this.tocId = tocId;
+        return this;
+    }
+
+    public String getTocName() {
+        return tocName;
+    }
+
+    public ReadHistoryEntity setTocName(String tocName) {
+        this.tocName = tocName;
+        return this;
+    }
+
     public int getId() {
         return id;
     }

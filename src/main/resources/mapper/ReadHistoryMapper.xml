@@ -16,12 +16,14 @@
         <result column="create_time" property="createTime"/>
         <result column="resouce_type" property="resouceType"/>
         <result column="uid" property="uid"/>
+        <result column="toc_id" property="tocId"/>
+        <result column="toc_name" property="tocName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        bookid, chapterid, chapter_name, content, cover, author, book_name, desc, create_time, resouce_type, uid
+        bookid, chapterid, chapter_name, content, cover, author, book_name, desc, create_time, resouce_type, uid, toc_id, toc_name
     </sql>
 
     <!-- 查找用户收藏小说阅读记录 -->

@@ -3,16 +3,17 @@ package com.yuhang.novel.pirate.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.CollcetionException;
+import com.yuhang.novel.pirate.model.AuthorBooksModel;
+import com.yuhang.novel.pirate.model.BookSearchModel;
 import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.page.BookSearchPage;
 import com.yuhang.novel.pirate.model.page.CollectionListPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
 import com.yuhang.novel.pirate.model.CollectionModel;
+import com.yuhang.novel.pirate.model.params.AddSearchWeightParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
-import com.yuhang.novel.pirate.model.result.BaseResult;
-import com.yuhang.novel.pirate.model.result.CollectionListResult;
-import com.yuhang.novel.pirate.model.result.ReadHistoryBookResult;
-import com.yuhang.novel.pirate.model.result.ReadHistoryResult;
+import com.yuhang.novel.pirate.model.result.*;
 import com.yuhang.novel.pirate.service.BookService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -133,5 +136,40 @@ public class BookController extends BaseController {
 
         ReadHistoryPage model = mBookService.getReadHistoryByCollectionModel(pageNum, pageSize, getUid(request));
         return (ReadHistoryResult) new ReadHistoryResult().setData(model).setCode(HttpConstant.HTTP_200).setMsg("成功");
+    }
+
+    @PostMapping("/books/search")
+    @ApiOperation(value = "查询书籍", notes = "查询书籍")
+    public BookSearchResult searchBooks(@ApiParam(value = "作者/书名", required = true) @RequestBody Map<String, String> map){
+
+        BookSearchPage page = mBookService.getBookSearchModel(0, 50, map.get("keyword"));
+        BookSearchResult result = new BookSearchResult();
+        result.setData(page);
+        return result;
+    }
+
+    @PostMapping("/books/search/weight/add")
+    @ApiOperation(value = "增加搜索权重", notes = "增加搜索权重")
+    public BaseResult addSearchWeight(@RequestBody AddSearchWeightParams params) {
+        mBookService.setSearchWeight(params.getBookName(), params.getAuthor());
+        return new BaseResult();
+    }
+
+    @PostMapping("/books/author/all")
+    @ApiOperation(value = "作者全部作品", notes = "作者全部作品")
+    public AuthorBooksResult getAuthorBooks(@ApiParam(value = "作者", required = true) @RequestBody Map<String, String> map) {
+        List<AuthorBooksModel> books = mBookService.getAuthorBooks(map.get("author"));
+        AuthorBooksResult result = new AuthorBooksResult();
+        result.setData(books);
+        return result;
+    }
+
+    @PostMapping("/books/search/bookid/ks")
+    @ApiOperation(value = "根据看书id查找快读id")
+    public BookSearchKdResult searchBooksById(@ApiParam(value = "看书id", required = true) @RequestBody Map<String, String> map) {
+        BookSearchModel page = mBookService.getBookSearchModelKs(map.get("bookid"));
+        BookSearchKdResult result = new BookSearchKdResult();
+        result.setData(page);
+        return result;
     }
 }

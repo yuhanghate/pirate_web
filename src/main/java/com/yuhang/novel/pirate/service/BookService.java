@@ -2,11 +2,16 @@ package com.yuhang.novel.pirate.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.exception.CollcetionException;
+import com.yuhang.novel.pirate.model.AuthorBooksModel;
+import com.yuhang.novel.pirate.model.BookSearchModel;
 import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.page.BookSearchPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
+
+import java.util.List;
 
 /**
  * 小说相关服务
@@ -66,4 +71,33 @@ public interface BookService {
      * @return
      */
     ReadHistoryPage getReadHistoryByCollectionModel(int pageNum, int pageSize, String uid);
+
+
+    /**
+     * 搜索书本
+     * @param pageNum
+     * @param pageSize
+     * @param keyword 书名/作者
+     * @return
+     */
+    BookSearchPage getBookSearchModel(int pageNum, int pageSize, String keyword);
+
+    /**
+     * 搜索一次增加权重
+     * @param bookName
+     * @param author
+     */
+    void setSearchWeight(String bookName, String author);
+
+    /**
+     * 获取作者所有作品
+     * @param author 作者名
+     */
+    List<AuthorBooksModel> getAuthorBooks(String author);
+
+    /**
+     * 根据看书id搜索快读id
+     * @return
+     */
+    BookSearchModel getBookSearchModelKs(String bookid);
 }

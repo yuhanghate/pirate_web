@@ -41,7 +41,7 @@ public class RegexUtils {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkMobile(String mobile) {
-        String regex = "(\\+\\d+)?1[3458]\\d{9}$";
+        String regex = "^[1]\\d{10}$";
         return Pattern.matches(regex,mobile);
     }
 

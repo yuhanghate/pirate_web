@@ -1,6 +1,5 @@
 package com.yuhang.novel.pirate.model.params;
 
-import com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -33,6 +32,30 @@ public class ReadHistoryParams {
 
     @ApiModelProperty(value = "小说源(KS:看书神器)")
     private String resouceType;
+
+    @ApiModelProperty(value = "快读渠道源id")
+    private String tocId;
+
+    @ApiModelProperty(value = "快读渠道源名称")
+    private String tocName;
+
+    public String getTocId() {
+        return tocId;
+    }
+
+    public ReadHistoryParams setTocId(String tocId) {
+        this.tocId = tocId;
+        return this;
+    }
+
+    public String getTocName() {
+        return tocName;
+    }
+
+    public ReadHistoryParams setTocName(String tocName) {
+        this.tocName = tocName;
+        return this;
+    }
 
     public String getBookid() {
         return bookid;

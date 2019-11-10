@@ -47,6 +47,7 @@ public class BookResouceModel {
      */
     private String resouceRule;
 
+
     public String getUrl() {
         return url;
     }

@@ -3,13 +3,18 @@ package com.yuhang.novel.pirate.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.constant.UserConstant;
+import com.yuhang.novel.pirate.dto.entity.BooksEntity;
 import com.yuhang.novel.pirate.dto.entity.CollectionsEntity;
 import com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity;
+import com.yuhang.novel.pirate.dto.mapper.BooksMapper;
 import com.yuhang.novel.pirate.dto.mapper.CollectionsMapper;
 import com.yuhang.novel.pirate.dto.mapper.ReadHistoryMapper;
 import com.yuhang.novel.pirate.exception.CollcetionException;
+import com.yuhang.novel.pirate.model.AuthorBooksModel;
+import com.yuhang.novel.pirate.model.BookSearchModel;
 import com.yuhang.novel.pirate.model.CollectionModel;
 import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.page.BookSearchPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
@@ -23,6 +28,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 小说相关
@@ -37,6 +43,9 @@ public class BookServiceImpl implements BookService {
 
     @Resource
     ReadHistoryMapper mReadHistoryMapper;
+
+    @Resource
+    BooksMapper mBooksMapper;
 
     @Override
     public Page<CollectionModel> getCollectiontModel(int pageNum, int pageSize, String uid) {
@@ -54,15 +63,15 @@ public class BookServiceImpl implements BookService {
             throw new CollcetionException(HttpConstant.HTTP_20007, "bookid 请求参数不正常");
         } else if (StringUtils.isEmpty(paramsModel.getResouceType())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "resouceType 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getAuthor())) {
+        } else if (StringUtils.isEmpty(paramsModel.getAuthor())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "author 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getBookName())) {
+        } else if (StringUtils.isEmpty(paramsModel.getBookName())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "bookName 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getBookStatus())) {
+        } else if (StringUtils.isEmpty(paramsModel.getBookStatus())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "bookStatus 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getClassifyName())) {
+        } else if (StringUtils.isEmpty(paramsModel.getClassifyName())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "classifyName 请求参数不正常");
-        }else if (StringUtils.isEmpty(paramsModel.getCover())) {
+        } else if (StringUtils.isEmpty(paramsModel.getCover())) {
             throw new CollcetionException(HttpConstant.HTTP_20007, "conver 请求参数不正常");
         }
 
@@ -82,7 +91,6 @@ public class BookServiceImpl implements BookService {
             mCollectionsMapper.updateById(resultModel);
 
         }
-
 
 
     }
@@ -112,7 +120,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ReadHistoryModel getReadHistoryModel(String uid, String bookid) {
 
-        return  mReadHistoryMapper.selectReadHistoryEntityListByBookid(uid, bookid);
+        return mReadHistoryMapper.selectReadHistoryEntityListByBookid(uid, bookid);
     }
 
     @Override
@@ -130,6 +138,8 @@ public class BookServiceImpl implements BookService {
         } else {
             //更新浏览时间
             entity.setCreateTime(new Date());
+            entity.setTocId(params.getTocId());
+            entity.setTocName(params.getTocName());
             mReadHistoryMapper.updateById(entity);
         }
     }
@@ -148,5 +158,40 @@ public class BookServiceImpl implements BookService {
                 .setPageSize(page.getSize());
 
         return historyPage;
+    }
+
+    @Override
+    public BookSearchPage getBookSearchModel(int pageNum, int pageSize, String keyword) {
+
+        Page<BookSearchModel> page = new Page<>(pageNum, pageSize);
+
+        page = mBooksMapper.selectSearchModelByBookName(page, "%" + keyword + "%");
+        BookSearchPage searchPage = new BookSearchPage();
+        searchPage.setList(page.getRecords())
+                .setTotal(page.getTotal())
+                .setPageNum(page.getCurrent())
+                .setPageSize(page.getSize());
+        return searchPage;
+    }
+
+    @Override
+    public void setSearchWeight(String bookName, String author) {
+
+        BooksEntity entity = mBooksMapper.selectByAuthorAndBookName(author, bookName);
+
+        entity.setWeight(entity.getWeight() + 1);
+        mBooksMapper.updateById(entity);
+    }
+
+    @Override
+    public List<AuthorBooksModel> getAuthorBooks(String author) {
+        return mBooksMapper.selectAuthorBooksByAuthor(author);
+    }
+
+    @Override
+    public BookSearchModel getBookSearchModelKs(String bookid) {
+
+        BookSearchModel model = mBooksMapper.selectSearchModelByBookidKs(bookid);
+        return model;
     }
 }

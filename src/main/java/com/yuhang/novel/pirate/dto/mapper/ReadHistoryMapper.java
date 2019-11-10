@@ -3,7 +3,9 @@ package com.yuhang.novel.pirate.dto.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yuhang.novel.pirate.model.BookSearchModel;
 import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.page.BookSearchPage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -67,4 +69,6 @@ public interface ReadHistoryMapper extends BaseMapper<ReadHistoryEntity> {
      * @param chapterid 章节id
      */
     void deleteReadHistoryEntity(String uid, String bookid, String chapterid);
+
+
 }

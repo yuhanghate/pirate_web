@@ -30,6 +30,29 @@ public class AddCollectionParams {
     @ApiModelProperty(value = "小说源(KS:看书神器)")
     private String resouceType;
 
+    @ApiModelProperty(value = "快读渠道源id")
+    private String tocId;
+
+    @ApiModelProperty(value = "快读渠道源名称")
+    private String tocName;
+
+    public String getTocId() {
+        return tocId;
+    }
+
+    public AddCollectionParams setTocId(String tocId) {
+        this.tocId = tocId;
+        return this;
+    }
+
+    public String getTocName() {
+        return tocName;
+    }
+
+    public AddCollectionParams setTocName(String tocName) {
+        this.tocName = tocName;
+        return this;
+    }
 
     public String getBookid() {
         return bookid;
