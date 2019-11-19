@@ -33,8 +33,32 @@ public class ReadHistoryModel implements Serializable {
     @ApiModelProperty(value = "章节名称")
     private String chapterName;
 
+    @ApiModelProperty(value = "快读子渠道id")
+    private String tocId;
+
+    @ApiModelProperty(value = "快读子渠道名称")
+    private String tocName;
+
     @ApiModelProperty(value = "最后阅读时间")
     private Date createTime;
+
+    public String getTocId() {
+        return tocId;
+    }
+
+    public ReadHistoryModel setTocId(String tocId) {
+        this.tocId = tocId;
+        return this;
+    }
+
+    public String getTocName() {
+        return tocName;
+    }
+
+    public ReadHistoryModel setTocName(String tocName) {
+        this.tocName = tocName;
+        return this;
+    }
 
     public Date getCreateTime() {
         return createTime;

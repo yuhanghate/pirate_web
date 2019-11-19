@@ -120,7 +120,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public ReadHistoryModel getReadHistoryModel(String uid, String bookid) {
 
-        return mReadHistoryMapper.selectReadHistoryEntityListByBookid(uid, bookid);
+        ReadHistoryModel model = mReadHistoryMapper.selectReadHistoryEntityListByBookid(uid, bookid);
+        return model;
     }
 
     @Override
