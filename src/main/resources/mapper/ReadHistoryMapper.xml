@@ -28,34 +28,32 @@
 
     <!-- 查找用户收藏小说阅读记录 -->
     <select id="selectReadHistoryEntityList" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
-        SELECT *
+        SELECT id, bookid, chapterid, chapter_name, cover, author, book_name, description, create_time, resouce_type, uid, toc_id, toc_name
         FROM read_history
         WHERE uid = #{uid} AND delete_flag = 0
-        GROUP BY bookid ORDER BY create_time DESC
+        GROUP BY book_name ORDER BY id DESC
     </select>
 
     <select id="selectReadHistoryEntityListByBookid" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
         SELECT
-            *
+            id, bookid, chapterid, chapter_name, cover, author, book_name, description, create_time, resouce_type, uid, toc_id, toc_name
         FROM
             read_history
         WHERE
             uid = #{uid}
             AND bookid = #{bookid}
-        ORDER BY
-            create_time DESC
-            LIMIT 1
+        ORDER BY id DESC LIMIT 1
     </select>
 
     <select id="selectReadHistoryEntityByCollections" resultType="com.yuhang.novel.pirate.model.ReadHistoryModel">
 
-        SELECT a.*
+        SELECT a.id, a.bookid, a.chapterid, a.chapter_name, a.cover, a.author, a.book_name, a.description, a.create_time, a.resouce_type, a.uid, a.toc_id, a.toc_name
         FROM read_history a
         WHERE
         a.bookid in (select bookid from collections WHERE uid = #{uid}  and delete_flag = 0)
         AND
         uid = #{uid}
-        AND a.create_time = (select create_time from read_history WHERE bookid = a.bookid ORDER BY create_time desc LIMIT 1)
+        AND a.create_time = (select create_time from read_history WHERE bookid = a.bookid ORDER BY id DESC LIMIT 1)
 
     </select>
 
@@ -66,11 +64,11 @@
     </update>
 
     <select id="selectReadHistoryEntity" resultType="com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity">
-        SELECT *
+        SELECT id, bookid chapterid, chapter_name, cover, author, book_name, description, create_time, resouce_type, uid, toc_id, toc_name
         FROM read_history
         WHERE uid = #{uid} AND bookid = #{bookid} AND chapterid = #{chapterid} AND delete_flag = 0
         GROUP BY chapterid
-        ORDER BY create_time DESC
+        ORDER BY id DESC
     </select>
 
     <update id="deleteReadHistoryEntity">
