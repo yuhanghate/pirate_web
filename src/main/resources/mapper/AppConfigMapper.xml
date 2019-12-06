@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhang.novel.pirate.dto.mapper.AppConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yuhang.novel.pirate.dto.entity.AppConfigEntity">
+    <result column="id" property="id" />
+        <result column="show_game_recommended" property="showGameRecommended" />
+        <result column="show_sex_book" property="showSexBook" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        show_game_recommended, show_sex_book
+    </sql>
+
+    <select id="selectEntityByOne" resultType="com.yuhang.novel.pirate.dto.entity.AppConfigEntity">
+        SELECT * FROM app_config ORDER BY id DESC LIMIT 1
+    </select>
+</mapper>

@@ -3,6 +3,7 @@ package com.yuhang.novel.pirate.service;
 
 import com.yuhang.novel.pirate.exception.AccountException;
 import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
+import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
@@ -45,6 +46,12 @@ public interface UserService {
      * @return true:存在  false:不正在
      */
     boolean checkUserEmpty(String email);
+
+    /**
+     * 获取配置信息
+     * @return
+     */
+    ConfigModel getConfigModel();
 
 
 }

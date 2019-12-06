@@ -1,10 +1,13 @@
 package com.yuhang.novel.pirate.controller;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
+import com.yuhang.novel.pirate.dto.mapper.AppConfigMapper;
 import com.yuhang.novel.pirate.exception.AccountException;
+import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
+import com.yuhang.novel.pirate.model.result.ConfigResult;
 import com.yuhang.novel.pirate.model.result.UserResult;
 import com.yuhang.novel.pirate.service.UserService;
 import com.yuhang.novel.pirate.shiro.JwtToken;
@@ -63,7 +66,6 @@ public class UserController extends BaseController {
     public UserResult register(@RequestBody RegisterParams paramsModel) {
 
         try {
-
             UserModel resultModel = mUserService.register(paramsModel);
             JwtToken token = TokenUtils.init(resultModel.getId(), paramsModel.getPassword());
             SecurityUtils.getSubject().login(token);
@@ -80,5 +82,14 @@ public class UserController extends BaseController {
         }
     }
 
+
+    @PostMapping("/config")
+    @ApiOperation(value = "获取配置信息", notes = "获取配置信息", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ConfigResult getConfig() {
+        ConfigModel model = mUserService.getConfigModel();
+        ConfigResult result = new ConfigResult();
+        result.setData(model);
+        return result;
+    }
 
 }

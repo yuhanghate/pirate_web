@@ -76,9 +76,9 @@ public class ShiroConfig {
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会拦截的链接，顺序判断
-        filterChainDefinitionMap.put("/api/m/user/login", "anon");
-        filterChainDefinitionMap.put("/api/m/user/register", "anon");
+        filterChainDefinitionMap.put("/api/m/user/**", "anon");
         filterChainDefinitionMap.put("/api/m/email/**", "anon");
+        filterChainDefinitionMap.put("/api/m/ad/**", "anon");
         filterChainDefinitionMap.put("/**.js", "anon");
         filterChainDefinitionMap.put("/swagger**/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");

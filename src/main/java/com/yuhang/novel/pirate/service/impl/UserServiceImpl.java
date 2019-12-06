@@ -1,10 +1,13 @@
 package com.yuhang.novel.pirate.service.impl;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
+import com.yuhang.novel.pirate.dto.entity.AppConfigEntity;
 import com.yuhang.novel.pirate.dto.entity.UsersEntity;
+import com.yuhang.novel.pirate.dto.mapper.AppConfigMapper;
 import com.yuhang.novel.pirate.dto.mapper.UsersMapper;
 import com.yuhang.novel.pirate.exception.AccountException;
 import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
+import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
@@ -25,11 +28,17 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    /**
+     * 用户
+     */
     @Resource
     private UsersMapper mUserMapper;
 
-//    @Autowired
-//    private RandomConfig mRandomConfig;
+    /**
+     * 配置
+     */
+    @Resource
+    private AppConfigMapper mConfigMapper;
 
     @Override
     public UserModel login(LoginParams paramsModel) throws AccountException {
@@ -131,6 +140,15 @@ public class UserServiceImpl implements UserService {
     public boolean checkUserEmpty(String email) {
         List<UsersEntity> list = mUserMapper.selectByEmail(email);
         return list != null && !list.isEmpty();
+    }
+
+    @Override
+    public ConfigModel getConfigModel() {
+        AppConfigEntity entity = mConfigMapper.selectEntityByOne();
+        ConfigModel model = new ConfigModel();
+        model.setShowGameRecommended(entity.getShowGameRecommended() == 1);
+        model.setShowSexBook(entity.getShowSexBook() == 1);
+        return model;
     }
 
 }
