@@ -1,5 +1,6 @@
 package com.yuhang.novel.pirate.controller;
 
+import com.google.gson.JsonObject;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.VersionException;
 import com.yuhang.novel.pirate.model.result.BaseResult;
@@ -47,8 +48,6 @@ public class VersionController {
                                        @ApiParam(name = "newVersion") @RequestParam String newVersion,
                                        @ApiParam(name = "updateLog") @RequestParam String updateLog,
                                        @ApiParam(name = "constraint") @RequestParam Boolean mustUpdate) {
-
-
         try {
             mVersionService.uploadVersion(file, newVersion,updateLog,mustUpdate);
             return new BaseResult().setCode(HttpConstant.HTTP_200).setMsg("上传成功");
@@ -56,6 +55,14 @@ public class VersionController {
             e.printStackTrace();
             return new BaseResult(e.getErrorCode(), e.getErrorMsg());
         }
+    }
 
+    @GetMapping("/download/apk")
+    @ApiOperation(value = "apk下载地址", notes = "apk下载地址")
+    public String getDownloadApkUrl(){
+        String downloadApkUrl = mVersionService.getDownloadApkUrl();
+        JsonObject object = new JsonObject();
+        object.addProperty("data", downloadApkUrl);
+        return object.toString();
     }
 }

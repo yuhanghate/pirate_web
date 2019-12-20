@@ -58,6 +58,19 @@ public class UsersEntity implements Serializable {
      */
     private Integer gender;
 
+    /**
+     * 是否会员 1:是  0:否
+     */
+    private Integer isVip;
+
+    public Integer getIsVip() {
+        return isVip;
+    }
+
+    public UsersEntity setIsVip(Integer isVip) {
+        this.isVip = isVip;
+        return this;
+    }
 
     public String getId() {
         return id;

@@ -18,4 +18,9 @@ public interface VersionService {
      */
     void uploadVersion(MultipartFile file, String newVersion, String updateLog, Boolean mustUpdate) throws VersionException;
 
+    /**
+     * 获取最新APK下载地址
+     * @return
+     */
+    String getDownloadApkUrl();
 }

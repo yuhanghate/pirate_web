@@ -88,4 +88,10 @@ public class VersionServiceImpl implements VersionService {
 
     }
 
+    @Override
+    public String getDownloadApkUrl() {
+        AppVersionEntity versionEntity = mAppVersionMapper.selectAppVersionEntity();
+        return versionEntity.getApkFileUrl();
+    }
+
 }

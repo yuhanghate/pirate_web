@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
         return new UserModel().setId(entity.getId())
                 .setEmail(entity.getEmail())
                 .setTel(entity.getTel())
+                .setVip(entity.getIsVip() == 1)
                 .setUsername(entity.getUsername());
     }
 
@@ -129,11 +130,11 @@ public class UserServiceImpl implements UserService {
 
         mUserMapper.updateById(entity);
 
-        UserModel userModel = new UserModel().setId(entity.getId())
+        return new UserModel().setId(entity.getId())
                 .setEmail(entity.getEmail())
                 .setTel(entity.getTel())
+                .setVip(entity.getIsVip() == 1)
                 .setUsername(entity.getUsername());
-        return userModel;
     }
 
     @Override
@@ -146,6 +147,7 @@ public class UserServiceImpl implements UserService {
     public ConfigModel getConfigModel() {
         AppConfigEntity entity = mConfigMapper.selectEntityByOne();
         ConfigModel model = new ConfigModel();
+        model.setOpenVip(entity.getIsOpenVip() == 1);
         model.setShowGameRecommended(entity.getShowGameRecommended() == 1);
         model.setShowSexBook(entity.getShowSexBook() == 1);
         return model;

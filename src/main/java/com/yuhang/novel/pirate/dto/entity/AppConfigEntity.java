@@ -26,6 +26,17 @@ public class AppConfigEntity implements Serializable {
      */
     private Integer showSexBook;
 
+    private Integer isOpenVip;
+
+    public Integer getIsOpenVip() {
+        return isOpenVip;
+    }
+
+    public AppConfigEntity setIsOpenVip(Integer isOpenVip) {
+        this.isOpenVip = isOpenVip;
+        return this;
+    }
+
     public Integer getShowGameRecommended() {
         return showGameRecommended;
     }

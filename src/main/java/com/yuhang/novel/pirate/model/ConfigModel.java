@@ -12,6 +12,18 @@ public class ConfigModel {
     @ApiModelProperty(value = "是否显示小黄书  \n true:显示 \n false:不显示")
     private boolean isShowSexBook = false;
 
+    @ApiModelProperty(value = "是否开启会员 \ntrue:开启  \n false:不开启")
+    private boolean isOpenVip = false;
+
+    public boolean isOpenVip() {
+        return isOpenVip;
+    }
+
+    public ConfigModel setOpenVip(boolean openVip) {
+        isOpenVip = openVip;
+        return this;
+    }
+
     public boolean isShowGameRecommended() {
         return isShowGameRecommended;
     }

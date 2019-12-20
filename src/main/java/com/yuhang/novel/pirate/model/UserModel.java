@@ -22,6 +22,18 @@ public class UserModel implements Serializable {
     @ApiModelProperty(value = "令牌")
     private String token;
 
+    @ApiModelProperty(value = "是否会员")
+    private boolean isVip;
+
+    public boolean isVip() {
+        return isVip;
+    }
+
+    public UserModel setVip(boolean vip) {
+        isVip = vip;
+        return this;
+    }
+
     public String getToken() {
         return token;
     }
