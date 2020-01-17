@@ -3,16 +3,9 @@ package com.yuhang.novel.pirate.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.exception.CollcetionException;
-import com.yuhang.novel.pirate.model.AuthorBooksModel;
-import com.yuhang.novel.pirate.model.BookSearchModel;
-import com.yuhang.novel.pirate.model.ReadHistoryModel;
-import com.yuhang.novel.pirate.model.page.BookSearchPage;
-import com.yuhang.novel.pirate.model.page.CollectionListPage;
-import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
-import com.yuhang.novel.pirate.model.params.AddCollectionParams;
-import com.yuhang.novel.pirate.model.CollectionModel;
-import com.yuhang.novel.pirate.model.params.AddSearchWeightParams;
-import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
+import com.yuhang.novel.pirate.model.*;
+import com.yuhang.novel.pirate.model.page.*;
+import com.yuhang.novel.pirate.model.params.*;
 import com.yuhang.novel.pirate.model.result.*;
 import com.yuhang.novel.pirate.service.BookService;
 import io.swagger.annotations.*;
@@ -171,5 +164,34 @@ public class BookController extends BaseController {
         BookSearchKdResult result = new BookSearchKdResult();
         result.setData(page);
         return result;
+    }
+
+    @PostMapping("/books/sex/list")
+    @ApiOperation(value = "查询小黄书目录")
+    public SexBooksReuslt getBooksSexList(@RequestBody PageParams params) {
+        SexBookListPage page = mBookService.getSexBooks(params);
+        return new SexBooksReuslt().setData(page);
+    }
+
+    @PostMapping("/books/sex/rand/list")
+    @ApiOperation(value = "随机查询小黄书目录")
+    public SexBooksRandReuslt getSexBooksRandList(@RequestBody SexBooksRandParams params) {
+        List<SexBooksModel> list = mBookService.getSexBooksRand(params.getLimit());
+        return new SexBooksRandReuslt().setData(list);
+    }
+
+    @PostMapping("/books/sex/chapter/list")
+    @ApiOperation(value = "小黄书章节列表")
+    public SexBookChapterReuslt getSexBookChapters(@RequestBody SexBookChapterParams params) {
+        SexBookChapterListPage page = mBookService.getSexBookChapters(params.getBookId());
+        return new SexBookChapterReuslt().setData(page);
+    }
+
+    @PostMapping("/books/sex/content")
+    @ApiOperation(value = "小黄书内容")
+    public SexBookContentResult getSexBookContent(@RequestBody SexBookContentParams params) {
+        SexBookContentModel model = mBookService.getSexBookContent(params.getChapterId());
+
+        return new SexBookContentResult().setData(model);
     }
 }

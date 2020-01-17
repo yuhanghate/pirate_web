@@ -2,13 +2,13 @@ package com.yuhang.novel.pirate.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.exception.CollcetionException;
-import com.yuhang.novel.pirate.model.AuthorBooksModel;
-import com.yuhang.novel.pirate.model.BookSearchModel;
-import com.yuhang.novel.pirate.model.CollectionModel;
-import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.*;
 import com.yuhang.novel.pirate.model.page.BookSearchPage;
+import com.yuhang.novel.pirate.model.page.SexBookChapterListPage;
+import com.yuhang.novel.pirate.model.page.SexBookListPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
+import com.yuhang.novel.pirate.model.params.PageParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
 
 import java.util.List;
@@ -100,4 +100,34 @@ public interface BookService {
      * @return
      */
     BookSearchModel getBookSearchModelKs(String bookid);
+
+
+    /**
+     * 获取小黄书列表
+     * @param params
+     * @return
+     */
+    SexBookListPage getSexBooks(PageParams params);
+
+    /**
+     * 随机获取小黄书
+     * @param limit
+     * @return
+     */
+    List<SexBooksModel> getSexBooksRand(int limit);
+
+
+    /**
+     * 获取章节列表
+     * @param bookid
+     * @return
+     */
+    SexBookChapterListPage getSexBookChapters(int bookid);
+
+    /**
+     * 获取小黄书内容
+     * @param chapterid
+     * @return
+     */
+    SexBookContentModel getSexBookContent(int chapterid);
 }

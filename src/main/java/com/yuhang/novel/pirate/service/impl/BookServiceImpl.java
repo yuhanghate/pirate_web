@@ -3,20 +3,16 @@ package com.yuhang.novel.pirate.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuhang.novel.pirate.constant.HttpConstant;
 import com.yuhang.novel.pirate.constant.UserConstant;
-import com.yuhang.novel.pirate.dto.entity.BooksEntity;
-import com.yuhang.novel.pirate.dto.entity.CollectionsEntity;
-import com.yuhang.novel.pirate.dto.entity.ReadHistoryEntity;
-import com.yuhang.novel.pirate.dto.mapper.BooksMapper;
-import com.yuhang.novel.pirate.dto.mapper.CollectionsMapper;
-import com.yuhang.novel.pirate.dto.mapper.ReadHistoryMapper;
+import com.yuhang.novel.pirate.dto.entity.*;
+import com.yuhang.novel.pirate.dto.mapper.*;
 import com.yuhang.novel.pirate.exception.CollcetionException;
-import com.yuhang.novel.pirate.model.AuthorBooksModel;
-import com.yuhang.novel.pirate.model.BookSearchModel;
-import com.yuhang.novel.pirate.model.CollectionModel;
-import com.yuhang.novel.pirate.model.ReadHistoryModel;
+import com.yuhang.novel.pirate.model.*;
 import com.yuhang.novel.pirate.model.page.BookSearchPage;
+import com.yuhang.novel.pirate.model.page.SexBookChapterListPage;
+import com.yuhang.novel.pirate.model.page.SexBookListPage;
 import com.yuhang.novel.pirate.model.page.ReadHistoryPage;
 import com.yuhang.novel.pirate.model.params.AddCollectionParams;
+import com.yuhang.novel.pirate.model.params.PageParams;
 import com.yuhang.novel.pirate.model.params.ReadHistoryParams;
 import com.yuhang.novel.pirate.service.BookService;
 import com.yuhang.novel.pirate.utils.JwtUtil;
@@ -27,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +43,15 @@ public class BookServiceImpl implements BookService {
 
     @Resource
     BooksMapper mBooksMapper;
+
+    @Resource
+    SexBooksMapper mSexBooksMapper;
+
+    @Resource
+    SexBookChapterMapper mSexBookChapterMapper;
+
+    @Resource
+    SexBookContentMapper mSexBookContentMapper;
 
     @Override
     public Page<CollectionModel> getCollectiontModel(int pageNum, int pageSize, String uid) {
@@ -193,6 +199,67 @@ public class BookServiceImpl implements BookService {
     public BookSearchModel getBookSearchModelKs(String bookid) {
 
         BookSearchModel model = mBooksMapper.selectSearchModelByBookidKs(bookid);
+        return model;
+    }
+
+    @Override
+    public SexBookListPage getSexBooks(PageParams params) {
+        Page<SexBooksEntity> page = new Page<>(params.getPageNum(), params.getPageSize());
+        mSexBooksMapper.selectSexBooks(page);
+
+        SexBookListPage models = new SexBookListPage();
+        List<SexBooksModel> list = new ArrayList<>();
+        page.getRecords().parallelStream()
+                .forEach(entity -> {
+                    SexBooksModel model = new SexBooksModel();
+                    BeanUtils.copyProperties(entity, model);
+                    model.setBookId(entity.getId());
+                    list.add(model);
+                });
+
+        models.setList(list)
+                .setPageSize(page.getSize())
+                .setTotal(page.getTotal())
+                .setPageNum(page.getCurrent());
+
+        return models;
+    }
+
+    @Override
+    public List<SexBooksModel> getSexBooksRand(int limit) {
+        return mSexBooksMapper.selectSexBookByRand(limit);
+    }
+
+    @Override
+    public SexBookChapterListPage getSexBookChapters(int bookid) {
+        Page<SexBookChapterEntity> page = new Page<SexBookChapterEntity>();
+        mSexBookChapterMapper.selectBookChapters(page, bookid);
+
+
+        SexBookChapterListPage models = new SexBookChapterListPage();
+        List<SexBookChapterModel> list = new ArrayList<>();
+        page.getRecords().parallelStream()
+                .forEach(entity -> {
+                    SexBookChapterModel model = new SexBookChapterModel();
+                    BeanUtils.copyProperties(entity, model);
+                    model.setChapterId(entity.getId());
+                    list.add(model);
+                });
+
+        models.setList(list)
+                .setPageSize(page.getSize())
+                .setTotal(page.getTotal())
+                .setPageNum(page.getCurrent());
+
+        return models;
+    }
+
+    @Override
+    public SexBookContentModel getSexBookContent(int chapterid) {
+        SexBookContentEntity entity = mSexBookContentMapper.selectContentByChapterid(chapterid);
+        SexBookContentModel model = new SexBookContentModel();
+        BeanUtils.copyProperties(entity, model);
+
         return model;
     }
 }
