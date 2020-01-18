@@ -238,13 +238,13 @@ public class BookServiceImpl implements BookService {
 
         SexBookChapterListPage models = new SexBookChapterListPage();
         List<SexBookChapterModel> list = new ArrayList<>();
-        page.getRecords().parallelStream()
-                .forEach(entity -> {
-                    SexBookChapterModel model = new SexBookChapterModel();
-                    BeanUtils.copyProperties(entity, model);
-                    model.setChapterId(entity.getId());
-                    list.add(model);
-                });
+        List<SexBookChapterEntity> records = page.getRecords();
+        for (SexBookChapterEntity entity : records) {
+            SexBookChapterModel model = new SexBookChapterModel();
+            BeanUtils.copyProperties(entity, model);
+            model.setChapterId(entity.getId());
+            list.add(model);
+        }
 
         models.setList(list)
                 .setPageSize(page.getSize())
