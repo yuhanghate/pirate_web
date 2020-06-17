@@ -86,4 +86,6 @@ public class UserRealm extends AuthorizingRealm {
 
         return new SimpleAuthenticationInfo(token, token, getName());
     }
+
+
 }

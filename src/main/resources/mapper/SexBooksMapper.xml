@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhang.novel.pirate.dto.mapper.SexBooksMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="model" type="com.yuhang.novel.pirate.model.SexBooksModel">
+        <result column="id" property="bookId" />
+        <result column="book_name" property="bookName" />
+        <result column="author" property="author" />
+        <result column="description" property="description" />
+        <result column="last_chapter_name" property="lastChapterName" />
+        <result column="book_url" property="bookUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        book_name, author, description, last_chapter_name, book_url, page_url, create_at, delete_flag
+    </sql>
+
+    <select id="selectSexBooks" resultType="com.yuhang.novel.pirate.dto.entity.SexBooksEntity">
+        SELECT
+          id, book_name, author, description, last_chapter_name, book_url
+        FROM sex_books
+        WHERE delete_flag = 0
+    </select>
+
+    <select id="selectSexBookByRand" resultMap="model">
+        SELECT id, book_name, author, description, last_chapter_name, book_url
+        FROM sex_books,
+        (SELECT ((1/COUNT(*))*100) as n FROM users) as x
+        WHERE RAND() &lt;= x.n AND delete_flag = 0
+        ORDER BY RAND() LIMIT #{limit};
+    </select>
+</mapper>

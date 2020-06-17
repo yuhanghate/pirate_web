@@ -33,7 +33,6 @@ public class MD5Utils {
             e.printStackTrace();
         }
         return HexUtil.bytes2Hex(bytes);
-
     }
 
 

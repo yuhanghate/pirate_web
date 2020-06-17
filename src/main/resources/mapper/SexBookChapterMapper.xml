@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhang.novel.pirate.dto.mapper.SexBookChapterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yuhang.novel.pirate.dto.entity.SexBookChapterEntity">
+    <result column="id" property="id" />
+        <result column="book_id" property="bookId" />
+        <result column="book_name" property="bookName" />
+        <result column="author" property="author" />
+        <result column="chapter_name" property="chapterName" />
+        <result column="chapter_url" property="chapterUrl" />
+        <result column="chapter_index" property="chapterIndex" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        book_id, book_name, author, chapter_name, chapter_url, chapter_index, create_time
+    </sql>
+
+    <select id="selectBookChapters" resultType="com.yuhang.novel.pirate.dto.entity.SexBookChapterEntity">
+        SELECT id, book_id, book_name, chapter_name, chapter_url, chapter_index
+        FROM sex_book_chapter
+        WHERE book_id = #{bookid}
+        ORDER BY chapter_index ASC
+    </select>
+</mapper>
