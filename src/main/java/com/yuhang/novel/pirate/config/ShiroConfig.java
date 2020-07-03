@@ -90,6 +90,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/api/m/book/books/search", "anon");
         filterChainDefinitionMap.put("/api/m/book/books/search/weight/add", "anon");
         filterChainDefinitionMap.put("/api/m/book/books/search/bookid/ks", "anon");
+        filterChainDefinitionMap.put("api/m/book/books/sex/rand/list", "anon");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new HashMap<>(1);
         filterMap.put("jwt", new JwtFilter());
