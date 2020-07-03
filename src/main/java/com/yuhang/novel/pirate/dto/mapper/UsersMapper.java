@@ -48,4 +48,11 @@ public interface UsersMapper extends BaseMapper<UsersEntity> {
      * @return
      */
     List<UsersEntity> selectByEmail(String email);
+
+    /**
+     * 查询是否vip
+     * @param uid 用户id
+     * @return
+     */
+    int selectVipByUid(String uid);
 }

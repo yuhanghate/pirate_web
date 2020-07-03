@@ -18,4 +18,6 @@
     <select id="selectEntityByOne" resultType="com.yuhang.novel.pirate.dto.entity.AppConfigEntity">
         SELECT * FROM app_config ORDER BY id DESC LIMIT 1
     </select>
+
+
 </mapper>

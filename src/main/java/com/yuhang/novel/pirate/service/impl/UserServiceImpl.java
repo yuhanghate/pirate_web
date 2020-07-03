@@ -1,6 +1,7 @@
 package com.yuhang.novel.pirate.service.impl;
 
 import com.yuhang.novel.pirate.constant.HttpConstant;
+import com.yuhang.novel.pirate.constant.UserConstant;
 import com.yuhang.novel.pirate.dto.entity.AppConfigEntity;
 import com.yuhang.novel.pirate.dto.entity.UsersEntity;
 import com.yuhang.novel.pirate.dto.mapper.AppConfigMapper;
@@ -9,15 +10,20 @@ import com.yuhang.novel.pirate.exception.AccountException;
 import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
 import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
+import com.yuhang.novel.pirate.model.VipModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
 import com.yuhang.novel.pirate.model.params.UpdatePasswordParams;
 import com.yuhang.novel.pirate.service.UserService;
+import com.yuhang.novel.pirate.utils.JwtUtil;
 import com.yuhang.novel.pirate.utils.RegexUtils;
 import com.yuhang.novel.pirate.utils.UUIDUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +45,9 @@ public class UserServiceImpl implements UserService {
      */
     @Resource
     private AppConfigMapper mConfigMapper;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public UserModel login(LoginParams paramsModel) throws AccountException {
@@ -150,6 +159,19 @@ public class UserServiceImpl implements UserService {
         model.setOpenVip(entity.getIsOpenVip() == 1);
         model.setShowGameRecommended(entity.getShowGameRecommended() == 1);
         model.setShowSexBook(entity.getShowSexBook() == 1);
+        return model;
+    }
+
+    @Override
+    public VipModel getVipModel() throws AccountException {
+        String token = request.getHeader(UserConstant.TOKEN);
+        if (StringUtils.isEmpty(token)) {
+            throw new AccountException(HttpConstant.HTTP_20014, "Token不能为空");
+        }
+        String uid = JwtUtil.getUid(token);
+        int vip = mUserMapper.selectVipByUid(uid);
+        VipModel model = new VipModel();
+        model.setVip(vip == 1);
         return model;
     }
 

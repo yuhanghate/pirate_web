@@ -43,4 +43,8 @@
     <select id="selectByEmail" resultType="com.yuhang.novel.pirate.dto.entity.UsersEntity">
         select * from  users WHERE email = #{email}
     </select>
+
+    <select id="selectVipByUid" resultType="int">
+        SELECT is_vip FROM users WHERE id = #{uid}
+    </select>
 </mapper>

@@ -5,10 +5,12 @@ import com.yuhang.novel.pirate.dto.mapper.AppConfigMapper;
 import com.yuhang.novel.pirate.exception.AccountException;
 import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
+import com.yuhang.novel.pirate.model.VipModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
 import com.yuhang.novel.pirate.model.result.ConfigResult;
 import com.yuhang.novel.pirate.model.result.UserResult;
+import com.yuhang.novel.pirate.model.result.VipStatusResult;
 import com.yuhang.novel.pirate.service.UserService;
 import com.yuhang.novel.pirate.shiro.JwtToken;
 import com.yuhang.novel.pirate.utils.TokenUtils;
@@ -90,6 +92,23 @@ public class UserController extends BaseController {
         ConfigResult result = new ConfigResult();
         result.setData(model);
         return result;
+    }
+
+    @PostMapping("/vip/status")
+    @ApiOperation(value = "获取vip状态", notes = "获取vip状态", produces = MediaType.APPLICATION_JSON_VALUE)
+    public VipStatusResult getVipStatus(){
+
+        try {
+            VipModel model = mUserService.getVipModel();
+            VipStatusResult result = new VipStatusResult();
+            result.setData(model);
+            return result;
+        } catch (AccountException e) {
+            return (VipStatusResult) new VipStatusResult().setCode(e.getErrorCode()).setMsg(e.getErrorMsg());
+        } catch (Exception e) {
+            return (VipStatusResult) new VipStatusResult().setCode(HttpConstant.HTTP_30000).setMsg("未知异常");
+        }
+
     }
 
 }

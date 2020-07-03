@@ -198,8 +198,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookSearchModel getBookSearchModelKs(String bookid) {
 
-        BookSearchModel model = mBooksMapper.selectSearchModelByBookidKs(bookid);
-        return model;
+        return mBooksMapper.selectSearchModelByBookidKs(bookid);
     }
 
     @Override

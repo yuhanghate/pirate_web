@@ -13,5 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AppConfigMapper extends BaseMapper<AppConfigEntity> {
 
-    public AppConfigEntity selectEntityByOne();
+    AppConfigEntity selectEntityByOne();
+
+
 }

@@ -80,5 +80,10 @@ public class HttpConstant {
      */
     public final static int HTTP_20013 = 20013;
 
+    /**
+     * Token不能为空
+     */
+    public final static int HTTP_20014 = 20014;
+
 
 }

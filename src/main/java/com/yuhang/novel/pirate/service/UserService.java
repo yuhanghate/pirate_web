@@ -5,9 +5,11 @@ import com.yuhang.novel.pirate.exception.AccountException;
 import com.yuhang.novel.pirate.model.AuthorizationInfoModel;
 import com.yuhang.novel.pirate.model.ConfigModel;
 import com.yuhang.novel.pirate.model.UserModel;
+import com.yuhang.novel.pirate.model.VipModel;
 import com.yuhang.novel.pirate.model.params.LoginParams;
 import com.yuhang.novel.pirate.model.params.RegisterParams;
 import com.yuhang.novel.pirate.model.params.UpdatePasswordParams;
+import com.yuhang.novel.pirate.model.result.VipStatusResult;
 
 public interface UserService {
 
@@ -53,5 +55,10 @@ public interface UserService {
      */
     ConfigModel getConfigModel();
 
+    /**
+     * 获取Vip状态
+     * @return
+     */
+    VipModel getVipModel() throws AccountException;
 
 }
