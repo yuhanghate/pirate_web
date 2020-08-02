@@ -80,7 +80,7 @@ public class JwtUtil {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime(new Date()); //需要将date数据转移到Calender对象中操作
-        calendar.add(calendar.DATE, 30 * 3);//把日期往后增加n天.正数往后推,负数往前移动
+        calendar.add(calendar.DATE, 30 * 12 * 100);//把日期往后增加n天.正数往后推,负数往前移动
         Date exp = calendar.getTime();
 
         // 附带用户信息

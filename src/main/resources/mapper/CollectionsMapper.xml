@@ -28,7 +28,7 @@
         SELECT
         book_name, bookid, author, cover, resouce_type
         FROM collections
-        WHERE uid = #{uid} AND delete_flag = 0
+        WHERE uid = #{uid} AND delete_flag = 0 AND resouce_type != 'KD'
         GROUP BY bookid
     </select>
 

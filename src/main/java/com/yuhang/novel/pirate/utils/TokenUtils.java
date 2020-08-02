@@ -11,10 +11,8 @@ public class TokenUtils {
     public final static String SECRET = "www.suibiankankan.com";
 
     public static JwtToken init(String username, String password) {
-//        Subject subject = SecurityUtils.getSubject();
         String token = JwtUtil.sign(username, MD5Utils.getMD5String(SECRET + password));
         JwtToken jwtToken = new JwtToken(token);
-//        subject.login(jwtToken);
         return jwtToken;
     }
 
